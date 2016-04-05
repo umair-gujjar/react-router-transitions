@@ -1,0 +1,125 @@
+/* eslint react/no-multi-comp:  0 */
+import React, {PropTypes} from 'react';
+import {createLocation, mergeLocations} from './LocationUtils';
+import {PUSH, REPLACE} from './HistoryActions';
+import {DISMISS} from './TransitionActions';
+
+/**
+ * TransitionContext used to share global methods accross
+ * all the application.
+ * This context is designed to be rendered just before the RouterContext.
+ */
+export default class TransitionContext extends React.Component {
+  static propTypes = {
+    transitionConfig: PropTypes.shape({
+      defaultTransition: PropTypes.object,
+      TransitionGroup: PropTypes.func,
+      onShow: PropTypes.func,
+      onDismiss: PropTypes.func,
+      getComponentKey: PropTypes.func
+    }).isRequired,
+    location: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    children: PropTypes.element.isRequired
+  };
+
+  static childContextTypes = {
+    transitionRouter: PropTypes.object.isRequired
+  };
+
+  getChildContext() {
+    return {
+      transitionRouter: {
+        config: this.props.transitionConfig,
+        dismiss: this.dismiss.bind(this),
+        show: this.show.bind(this),
+        swap: this.swap.bind(this),
+        getLocationIndex: this.getLocationIndex.bind(this)
+      }
+    };
+  }
+
+  componentWillMount() {
+    // Keep an history of all keys to be able to determine if we go forward
+    // or backward in the history
+    this.locationKeys = [this.props.location.key];
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {location: nextLocation} = nextProps;
+    const locationIndex = this.getLocationIndex();
+
+    if (nextLocation.action === PUSH) {
+      this.locationKeys = [
+        ...this.locationKeys.slice(0, locationIndex + 1),
+        nextLocation.key
+      ];
+    } else if (nextLocation.action === REPLACE) {
+      this.locationKeys[locationIndex] = nextLocation.key;
+    }
+  }
+
+  /**
+   * Dismiss current location.
+   * By default it's a goBack, we use the location only if we don't have
+   * any history.
+   *
+   * @param {object} location
+   */
+  dismiss(location) {
+    if (this.getLocationIndex() > 0) {
+      this.props.router.goBack();
+    } else {
+      location = createLocation(location);
+      this.swap(location, DISMISS);
+    }
+  }
+
+  /**
+   * Show a location.
+   * It's basically a simple push.
+   *
+   * @param {object} location
+   */
+  show(location) {
+    this.props.router.push(location);
+  }
+
+  /**
+   * Swap to a location.
+   * Location are merged and the current location is replaced by the new one.
+   *
+   * @param {object} location
+   * @param {string} transitionAction
+   */
+  swap(location, transitionAction) {
+    location = createLocation(location);
+    location = mergeLocations(this.props.location, location);
+
+    if (transitionAction) {
+      location.state = {
+        ...location.state,
+        transitionAction
+      };
+    }
+
+    delete location.key;
+
+    this.props.router.replace(location);
+  }
+
+  /**
+   * Returns the index of a location.
+   * By default it will return the index of the current location.
+   *
+   * @param {object} [location=this.props.location]
+   */
+  getLocationIndex(location = this.props.location) {
+    return this.locationKeys.indexOf(location.key);
+  }
+
+  render() {
+    const {transitionConfig, children, ...props} = this.props;
+    return children;
+  }
+}

@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rm -rf lib/ && cp -R src/ lib/ && babel -d lib src",
-    "test:dev": "mocha --compilers js:babel-register",
-    "test": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha"
+    "test": "mocha --compilers js:babel-register",
+    "cover": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,3 @@
-export {PUSH, REPLACE, POP} from 'history/lib/Actions';
+export const PUSH = 'PUSH';
+export const REPLACE = 'REPLACE';
+export const POP = 'POP';

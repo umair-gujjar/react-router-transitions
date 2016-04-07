@@ -3,10 +3,10 @@
 [![Dependency Status](https://david-dm.org/doctolib/react-router-transitions.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions)
 [![devDependency Status](https://david-dm.org/doctolib/react-router-transitions/dev-status.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions#info=devDependencies)
 
-React router transitions enable transitions support in react-router, it supports history and supports
+React router transitions enable transitions support in react-router, it supports history and
 all kind of animations.
 
-The main goal of this module is to handle history navigation by providing the correct animation if the user go back or go forward. It's a requirement especially on mobile to provide a great user experience.
+The main goal of this module is to handle history navigation by providing the correct animation if the user goes back or goes forward. It is a requirement especially on mobile to provide a great user experience.
 
 ## Install
 
@@ -21,7 +21,7 @@ npm install react-router-transitions
 The requirement to use this module is to set up transition context at the root level
 of your application using `renderTransitionContext`.
 
-After that you can enable transitions at several levels of your application using `withTransition`. In a simple application you should only wrap your root component.
+Then you can enable transitions at several levels of your application using `withTransition`. In a simple application you should only wrap your root component.
 
 ```js
 import React from 'react';
@@ -57,13 +57,13 @@ export default () => (
 
 If you are familiar with react-router, you have probably already used methods like `router.push` or `router.replace`. Starting now, you should not use them to navigate into your application.
 
-You have to think your navigation in a view logic, just like in a mobile application. To make it possible, a new property is now accessible in the context `transitionRouter`. This property have three main methods: `show`, `dismiss` and `swap`.
+You have to think your navigation in a view logic, just like in a mobile application. To make it possible, a new property is now accessible in the context `transitionRouter`. This property has three main methods: `show`, `dismiss` and `swap`.
 
 #### transitionRouter.show(location)
 
 Go to a location using a `show` animation. You have to use this method each time you want to display a new view.
 
-It adds a new entry in the history to give to the user the ability to use back button.
+It adds a new entry in the history to give the user the ability to use back button.
 
 Internally it uses the method `router.push`.
 
@@ -73,19 +73,19 @@ Go to a location using a `dismiss` animation. You have to use this method when y
 
 It doesn't add a new entry in the history.
 
-Internally it uses the method `router.goBack` if we have an history, it uses `transitionRouter.swap` with a `dismiss` action.
+Internally, if we have an history, it uses the method `router.goBack` otherwise it uses `transitionRouter.swap` with a `dismiss` action.
 
 #### transitionRouter.swap(location, [transitionAction])
 
 Go to a location using the default transition or the transition specified in second argument. You have to use this method if you want to change route without affecting the history (ex: tabs, accordion..).
 
-It doesn't add new entry in the history.
+It doesn't add a new entry in the history.
 
 Internally it merges the new location with the current one and use `router.replace`. The transitionAction is added to the location state if specified, available values are "show" or "dismiss".
 
 #### Specify transitions
 
-You can specify transition associated to a view directly in the location state. You have to specify two transitions configuration: `showTransition` and `dismissTransition`.
+You can specify a transition associated to a view directly in the location state. You have to specify two transition configurations: `showTransition` and `dismissTransition`.
 
 If you specified these properties they will be the transition used to `show` or `dismiss` the view.
 
@@ -134,7 +134,7 @@ export default class Home extends React.Component {
 
 ### renderTransitionContext(options)
 
-Options available are :
+Available options are :
 
 - `RouterContext`: Usually the router context component of react-router.
 - `TransitionGroup`: The transition group component used to make transition. You can use all type of transition group, [ReactCSSTransitionGroup](https://facebook.github.io/react/docs/animation.html) is the default choice. Transition specified in `showTransition`, `dismissTransition` or `defaultTransition` are the properties used to render your TransitionGroup.
@@ -163,7 +163,7 @@ This method has to be called in the render method of the Router component.
 
 ### withTransition(Component, config)
 
-Enable transitions in the component, children of the component will be animated.
+Enable transitions in the component (children of the component will be animated).
 
 The config provided is merged with the config provided into `renderTransitionContext`.
 
@@ -220,7 +220,7 @@ You can use hooks to determine transition automatically without having to specif
 
 ### Create a custom component key
 
-If animation is not played, one of the reason could be that your key is not different from the key of the last location. To fix that you can create a custom component by specifying `getComponentKey` in the configuration.
+If the animation is not played, one of the reason could be that your key is not different from the key of the last location. To fix that you can create a custom component by specifying `getComponentKey` in the configuration.
 
 By default the key used is the full path to the current route, params are ignored.
 

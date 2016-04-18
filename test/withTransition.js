@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
+import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import {shallow} from 'enzyme';
 import withTransition from '../src/withTransition';
 
-chai.use(sinonChai);
+chai
+  .use(dirtyChai)
+  .use(sinonChai);
 
 describe('withTransition', () => {
   let props, context, transitionConfig, BaseComponent, WrappedComponent;
@@ -15,6 +18,8 @@ describe('withTransition', () => {
 
     const TransitionGroup = ({children}) =>
       <div className="transition-group">{children}</div>;
+
+    TransitionGroup.propTypes = {children: PropTypes.node};
 
     props = {
       location: {
@@ -94,7 +99,7 @@ describe('withTransition', () => {
       expect(
         transitionConfig.onShow,
         'onShow hook should be called once'
-      ).to.be.calledOnce;
+      ).to.be.calledOnce();
 
       expect(
         transitionConfig.onShow,
@@ -170,7 +175,7 @@ describe('withTransition', () => {
       expect(
         transitionConfig.onDismiss,
         'onDismiss hook should be called once'
-      ).to.be.calledOnce;
+      ).to.be.calledOnce();
 
       expect(
         transitionConfig.onDismiss,

@@ -2,12 +2,15 @@ import jsdom from 'mocha-jsdom';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import dirtyChai from 'dirty-chai';
 import {getChildContext} from './TestHelpers';
 import TransitionContext from '../src/TransitionContext';
 import {PUSH} from '../src/HistoryActions';
 import {DISMISS} from '../src/TransitionActions';
 
-chai.use(sinonChai);
+chai
+  .use(dirtyChai)
+  .use(sinonChai);
 
 describe('TransitionContext', () => {
   let props;
@@ -159,7 +162,7 @@ describe('TransitionContext', () => {
         dismiss();
 
         expect(props.router.goBack, 'props.router.goBack should be called once')
-          .to.be.calledOnce;
+          .to.be.calledOnce();
       });
     });
 
@@ -176,7 +179,7 @@ describe('TransitionContext', () => {
         dismiss();
 
         expect(props.router.replace, 'props.router.replace should be called once')
-          .to.be.calledOnce;
+          .to.be.calledOnce();
         expect(props.router.replace, 'props.router.replace should be called with merged location')
           .to.be.calledWith({
             state: {
@@ -201,7 +204,7 @@ describe('TransitionContext', () => {
       show('/new/location');
 
       expect(props.router.push, 'props.router.push should be called once')
-        .to.be.calledOnce;
+        .to.be.calledOnce();
       expect(props.router.push, 'props.router.push should be called with location')
         .to.be.calledWith('/new/location');
     });
@@ -220,7 +223,7 @@ describe('TransitionContext', () => {
       swap('/new/location');
 
       expect(props.router.replace, 'props.router.replace should be called once')
-        .to.be.calledOnce;
+        .to.be.calledOnce();
       expect(props.router.replace, 'props.router.replace should be called with merged location')
         .to.be.calledWith({
           pathname: '/new/location',

@@ -119,7 +119,7 @@ export default class TransitionContext extends React.Component {
   }
 
   render() {
-    const {transitionConfig, children, ...props} = this.props;
+    const {children} = this.props;
     return children;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-router-transitions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easily handle transitions in your React application.",
   "main": "lib/index.js",
   "scripts": {

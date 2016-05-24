@@ -1,7 +1,7 @@
 {
   "name": "react-router-transitions",
   "version": "1.0.1",
-  "description": "Easily handle transitions in your React application.",
+  "description": "Brings transitions to react-router, with history support and all kind of animations.",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rm -rf lib/ && cp -R src/ lib/ && babel -d lib src",

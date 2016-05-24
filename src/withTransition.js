@@ -154,8 +154,8 @@ export default (Component, transitionConfig) => (
       } = this.config;
 
       return (
-        <Component {...props} ref="component">
-          <TransitionGroup {...this.state.transition} ref="transitionGroup">
+        <Component {...props}>
+          <TransitionGroup {...this.state.transition}>
             {React.Children.map(children, child =>
               React.isValidElement(child)
                 ? React.cloneElement(child, {key: getComponentKey(child, this.props)})

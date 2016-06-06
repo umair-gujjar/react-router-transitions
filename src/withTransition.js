@@ -10,24 +10,24 @@ export default (Component, transitionConfig) => (
   class Transition extends React.Component {
     static propTypes = {
       location: PropTypes.object.isRequired,
-      children: PropTypes.node
+      children: PropTypes.node,
     };
 
     static contextTypes = {
-      transitionRouter: PropTypes.object.isRequired
+      transitionRouter: PropTypes.object.isRequired,
     };
 
     componentWillMount() {
       this.config = {
         ...this.context.transitionRouter.config,
-        ...transitionConfig
+        ...transitionConfig,
       };
       this.state = {transition: this.config.defaultTransition};
     }
 
     componentWillReceiveProps(nextProps) {
       this.setState({
-        transition: this.getTransition(this.props, nextProps)
+        transition: this.getTransition(this.props, nextProps),
       });
     }
 
@@ -137,7 +137,7 @@ export default (Component, transitionConfig) => (
       const {defaultTransition} = this.config;
       const {
         showTransition = defaultTransition,
-        dismissTransition = defaultTransition
+        dismissTransition = defaultTransition,
       } = location.state || {};
       return {dismissTransition, showTransition};
     }
@@ -145,12 +145,12 @@ export default (Component, transitionConfig) => (
     render() {
       const {
         children,
-        ...props
+        ...props,
       } = this.props;
 
       const {
         TransitionGroup,
-        getComponentKey = defaultGetComponentKey
+        getComponentKey = defaultGetComponentKey,
       } = this.config;
 
       return (

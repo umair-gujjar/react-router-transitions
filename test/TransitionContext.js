@@ -22,19 +22,19 @@ describe('TransitionContext', () => {
       location: {
         key: 'initial-location',
         state: {
-          first: true
-        }
+          first: true,
+        },
       },
       router: {
         goBack: sinon.spy(),
         push: sinon.spy(),
-        replace: sinon.spy()
+        replace: sinon.spy(),
       },
       transitionConfig: {
         defaultTransition: {
-          transition: 'custom'
-        }
-      }
+          transition: 'custom',
+        },
+      },
     };
   });
 
@@ -44,9 +44,9 @@ describe('TransitionContext', () => {
       const {
         context: {
           transitionRouter: {
-            config
-          }
-        }
+            config,
+          },
+        },
       } = getChildContext(TransitionContext, props);
       expect(config, 'context.transitionRouter.config should be equal to props.config')
         .to.eql({foo: 'bar'});
@@ -59,9 +59,9 @@ describe('TransitionContext', () => {
         const {
           context: {
             transitionRouter: {
-              getLocationIndex
-            }
-          }
+              getLocationIndex,
+            },
+          },
         } = getChildContext(TransitionContext, props);
         expect(getLocationIndex(), 'context.transitionRouter.getLocationIndex() should return 0')
           .to.equal(0);
@@ -73,9 +73,9 @@ describe('TransitionContext', () => {
         const {
           context: {
             transitionRouter: {
-              getLocationIndex
-            }
-          }
+              getLocationIndex,
+            },
+          },
         } = getChildContext(TransitionContext, props);
         expect(getLocationIndex({}), 'context.transitionRouter.getLocationIndex() should return -1')
           .to.equal(-1);
@@ -88,29 +88,29 @@ describe('TransitionContext', () => {
           wrapper,
           context: {
             transitionRouter: {
-              getLocationIndex
-            }
-          }
+              getLocationIndex,
+            },
+          },
         } = getChildContext(TransitionContext, props);
 
         const secondLocation = {
           key: 'second-location',
-          action: PUSH
+          action: PUSH,
         };
 
         const thirdLocation = {
           key: 'third-location',
-          action: PUSH
+          action: PUSH,
         };
 
         wrapper.setProps({
           ...props,
-          location: secondLocation
+          location: secondLocation,
         });
 
         wrapper.setProps({
           ...props,
-          location: thirdLocation
+          location: thirdLocation,
         });
 
         expect(
@@ -144,19 +144,19 @@ describe('TransitionContext', () => {
           wrapper,
           context: {
             transitionRouter: {
-              dismiss
-            }
-          }
+              dismiss,
+            },
+          },
         } = getChildContext(TransitionContext, props);
 
         const secondLocation = {
           key: 'second-location',
-          action: PUSH
+          action: PUSH,
         };
 
         wrapper.setProps({
           ...props,
-          location: secondLocation
+          location: secondLocation,
         });
 
         dismiss();
@@ -171,9 +171,9 @@ describe('TransitionContext', () => {
         const {
           context: {
             transitionRouter: {
-              dismiss
-            }
-          }
+              dismiss,
+            },
+          },
         } = getChildContext(TransitionContext, props);
 
         dismiss();
@@ -184,8 +184,8 @@ describe('TransitionContext', () => {
           .to.be.calledWith({
             state: {
               first: true,
-              transitionAction: DISMISS
-            }
+              transitionAction: DISMISS,
+            },
           });
       });
     });
@@ -196,9 +196,9 @@ describe('TransitionContext', () => {
       const {
         context: {
           transitionRouter: {
-            show
-          }
-        }
+            show,
+          },
+        },
       } = getChildContext(TransitionContext, props);
 
       show('/new/location');
@@ -215,9 +215,9 @@ describe('TransitionContext', () => {
       const {
         context: {
           transitionRouter: {
-            swap
-          }
-        }
+            swap,
+          },
+        },
       } = getChildContext(TransitionContext, props);
 
       swap('/new/location');
@@ -228,8 +228,8 @@ describe('TransitionContext', () => {
         .to.be.calledWith({
           pathname: '/new/location',
           state: {
-            first: true
-          }
+            first: true,
+          },
         });
     });
   });

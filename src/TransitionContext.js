@@ -16,15 +16,15 @@ export default class TransitionContext extends React.Component {
       TransitionGroup: PropTypes.func,
       onShow: PropTypes.func,
       onDismiss: PropTypes.func,
-      getComponentKey: PropTypes.func
+      getComponentKey: PropTypes.func,
     }).isRequired,
     location: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
   };
 
   static childContextTypes = {
-    transitionRouter: PropTypes.object.isRequired
+    transitionRouter: PropTypes.object.isRequired,
   };
 
   getChildContext() {
@@ -34,8 +34,8 @@ export default class TransitionContext extends React.Component {
         dismiss: this.dismiss.bind(this),
         show: this.show.bind(this),
         swap: this.swap.bind(this),
-        getLocationIndex: this.getLocationIndex.bind(this)
-      }
+        getLocationIndex: this.getLocationIndex.bind(this),
+      },
     };
   }
 
@@ -52,7 +52,7 @@ export default class TransitionContext extends React.Component {
     if (nextLocation.action === PUSH) {
       this.locationKeys = [
         ...this.locationKeys.slice(0, locationIndex + 1),
-        nextLocation.key
+        nextLocation.key,
       ];
     } else if (nextLocation.action === REPLACE) {
       this.locationKeys[locationIndex] = nextLocation.key;
@@ -99,7 +99,7 @@ export default class TransitionContext extends React.Component {
     if (transitionAction) {
       location.state = {
         ...location.state,
-        transitionAction
+        transitionAction,
       };
     }
 

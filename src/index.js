@@ -10,5 +10,5 @@ export {
   HistoryActions,
   TransitionActions,
   LocationUtils,
-  RouterUtils
+  RouterUtils,
 };

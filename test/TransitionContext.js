@@ -1,6 +1,6 @@
 import jsdom from 'mocha-jsdom';
 import chai, {expect} from 'chai';
-import sinon from 'sinon';
+import {spy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import dirtyChai from 'dirty-chai';
 import {getChildContext} from './TestHelpers';
@@ -26,9 +26,9 @@ describe('TransitionContext', () => {
         },
       },
       router: {
-        goBack: sinon.spy(),
-        push: sinon.spy(),
-        replace: sinon.spy(),
+        goBack: spy(),
+        push: spy(),
+        replace: spy(),
       },
       transitionConfig: {
         defaultTransition: {

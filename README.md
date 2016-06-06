@@ -9,7 +9,7 @@ The main goal of this module is to handle history navigation by providing the co
 
 ## Install
 
-```
+```sh
 npm install react-router-transitions
 ```
 
@@ -20,7 +20,8 @@ npm install react-router-transitions
 The requirement to use this module is to set up transition context at the root level
 of your application using `renderTransitionContext`.
 
-Then you can enable transitions at several levels of your application using `withTransition`. In a simple application you should only wrap your root component.
+Then you can enable transitions at several levels of your application using `withTransition`.
+In a simple application, you should only wrap your root component.
 
 ```js
 import React from 'react';
@@ -54,13 +55,16 @@ export default () => (
 
 ### Navigate into your application
 
-If you are familiar with react-router, you have probably already used methods like `router.push` or `router.replace`. Starting now, you should not use them to navigate into your application.
+If you are familiar with react-router, you have probably already used methods like `router.push` or `router.replace`.
+Starting now, you should not use them to navigate into your application.
 
-You have to think your navigation in a view logic, just like in a mobile application. To make it possible, a new property is now accessible in the `transitionRouter` context. This property has three main methods: `show`, `dismiss` and `swap`.
+You have to think your navigation in a view logic, just like in a mobile application.
+To make it possible, a new property is now accessible in the `transitionRouter` context. This property has three main methods: `show`, `dismiss` and `swap`.
 
 #### transitionRouter.show(location)
 
-Go to a location using a `show` animation. You have to use this method each time you want to display a new view.
+Go to a location using a `show` animation.
+You have to use this method each time you want to display a new view.
 
 It adds a new entry in the history to give the user the ability to use the back button.
 
@@ -68,7 +72,8 @@ Internally, it uses the `router.push` method.
 
 #### transitionRouter.dismiss(location)
 
-Go to a location using a `dismiss` animation. You have to use this method when you want to hide a view (e.g. simulate a *close* or a *go back*).
+Go to a location using a `dismiss` animation.
+You have to use this method when you want to hide a view (e.g. simulate a *close* or a *go back*).
 
 It doesn't add a new entry in the history.
 
@@ -76,26 +81,29 @@ Internally, if we have an history, it uses the `router.goBack` method, otherwise
 
 #### transitionRouter.swap(location, [transitionAction])
 
-Go to a location using the default transition or the transition specified in the second argument. You have to use this method if you want to change route without affecting the history (e.g. tabs, accordion, etc).
+Go to a location using the default transition or the transition specified in the second argument.
+You have to use this method if you want to change route without affecting the history (e.g. tabs, accordion, etc).
 
 It doesn't add a new entry in the history.
 
-Internally, it merges the new location with the current one and uses `router.replace`. The `transitionAction` is added to the location state if specified. Available values are "show" or "dismiss".
+Internally, it merges the new location with the current one and uses `router.replace`.
+The `transitionAction` is added to the location state if specified. Available values are "show" or "dismiss".
 
 #### Specify transitions
 
-You can specify a transition associated to a view directly in the location state. You have to specify two transition configurations: `showTransition` and `dismissTransition`.
+You can specify a transition associated with a view directly in the location state.
+You have to specify two transition configurations: `showTransition` and `dismissTransition`.
 
 If you specify these properties, they will be the transition used to show or dismiss the view.
 
 #### Example
 
 ```js
-import React from 'react';
+import React, {Component} from 'react';
 
-export default class Home extends React.Component {
+export default class Home extends Component {
   static contextTypes = {
-    transitionRouter: React.PropTypes.object  
+    transitionRouter: React.PropTypes.object,
   };
 
   onClickAboutUs(event) {
@@ -106,14 +114,14 @@ export default class Home extends React.Component {
         showTransition: {
           transitionName: 'show-from-top',
           transitionEnterTimeout: 500,
-          transitionLeaveTimeout: 300
+          transitionLeaveTimeout: 300,
         },
         dismissTransition: {
           transitionName: 'dismiss-from-top',
           transitionEnterTimeout: 500,
-          transitionLeaveTimeout: 300
-        }
-      }
+          transitionLeaveTimeout: 300,
+        },
+      },
     });
   }
 
@@ -136,11 +144,12 @@ export default class Home extends React.Component {
 Available options are:
 
 - `RouterContext`: Usually the router context component of react-router.
-- `TransitionGroup`: The transition group component used to make transition. You can use any kind of transition group, [ReactCSSTransitionGroup](https://facebook.github.io/react/docs/animation.html) being the default. Transition specified in `showTransition`, `dismissTransition` or `defaultTransition` are the properties used to render your `TransitionGroup`.
+- `TransitionGroup`: The transition group component used to make transition. You can use any kind of transition group, [ReactCSSTransitionGroup](https://facebook.github.io/react/docs/animation.html) being the default.
+Transition specified in `showTransition`, `dismissTransition` or `defaultTransition` are the properties used to render your `TransitionGroup`.
 - `defaultTransition`: The default transition applied on the component. The default transition is applied
 when no transition is specified or when we can't determine the type of transition to apply.
-- `onShow`: Hook function called after a "show" action has beed requested.
-- `onDismiss`: Hook function called after a "dismiss" action has beed requested.
+- `onShow`: Hook function called after a "show" action has been requested.
+- `onDismiss`: Hook function called after a "dismiss" action has been requested.
 - `getComponentKey`: Function used to generate the component key. Defaults to the complete route path.
 
 This method has to be called in the render method of the Router component.
@@ -193,21 +202,21 @@ You can use hooks to determine transitions automatically without having to speci
       return {
         transitionName: `show-${nextState.children.props.route.transition}`,
         transitionEnterTimeout: 500,
-        transitionLeaveTimeout: 300
+        transitionLeaveTimeout: 300,
       };
     },
     onDismiss(prevState, nextState, replaceTransition) {
       return {
         transitionName: `dismiss-${prevState.children.props.route.transition}`,
         transitionEnterTimeout: 500,
-        transitionLeaveTimeout: 300
+        transitionLeaveTimeout: 300,
       };
     },
     defaultTransition: {
       transitionName: 'fade',
       transitionEnterTimeout: 500,
-      transitionLeaveTimeout: 300
-    }
+      transitionLeaveTimeout: 300,
+    },
   })}
 >
   <Route path="/" component={withTransition(App)}>
@@ -219,7 +228,8 @@ You can use hooks to determine transitions automatically without having to speci
 
 ### Create a custom component key
 
-If the animation is not played, one of the reason could be that your key is not different from the key of the last location. To fix that, you can create a custom component by specifying `getComponentKey` in the configuration.
+If the animation is not played, one of the reason could be that your key is not different from the key of the last location.
+To fix that, you can create a custom component by specifying `getComponentKey` in the configuration.
 
 By default, the key used is the full path to the current route. Params are ignored.
 

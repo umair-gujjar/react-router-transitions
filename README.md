@@ -3,9 +3,10 @@
 [![Dependency Status](https://david-dm.org/doctolib/react-router-transitions.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions)
 [![devDependency Status](https://david-dm.org/doctolib/react-router-transitions/dev-status.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions#info=devDependencies)
 
-This module brings transitions to react-router, with history support and all kind of animations.
+> Brings transitions to react-router.
 
-The main goal of this module is to handle history navigation by providing the correct animation if the user goes back or goes forward. It is a requirement especially on mobile to provide a great user experience.
+The main goal of this module is to handle history navigation by providing the correct animation if the user goes back or goes forward.
+It is a requirement especially on mobile to provide a great user experience.
 
 ## Install
 

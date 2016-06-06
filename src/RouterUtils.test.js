@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {getCompleteRoutesPath, getRoutePath} from '../src/RouterUtils';
+import {getCompleteRoutesPath, getRoutePath} from './RouterUtils';
 
 describe('RouterUtils', () => {
   describe('#getCompleteRoutesPath', () => {

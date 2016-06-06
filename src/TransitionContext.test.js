@@ -3,10 +3,10 @@ import chai, {expect} from 'chai';
 import {spy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import dirtyChai from 'dirty-chai';
-import {getChildContext} from './TestHelpers';
-import TransitionContext from '../src/TransitionContext';
-import {PUSH} from '../src/HistoryActions';
-import {DISMISS} from '../src/TransitionActions';
+import {getChildContext} from '../test/TestHelpers';
+import TransitionContext from './TransitionContext';
+import {PUSH} from './HistoryActions';
+import {DISMISS} from './TransitionActions';
 
 chai
   .use(dirtyChai)

@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "rm -rf lib/ && cp -R src/ lib/ && babel -d lib src",
     "lint": "eslint .",
-    "test": "mocha --compilers js:babel-register",
+    "test": "mocha $(find . -name '*.test.js' ! -ipath '*node_modules*') --compilers js:babel-register",
     "cover": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha"
   },
   "repository": {

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import {shallow} from 'enzyme';
-import withTransition from '../src/withTransition';
+import withTransition from './withTransition';
 
 chai
   .use(dirtyChai)

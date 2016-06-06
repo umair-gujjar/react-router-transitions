@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {createLocation, mergeLocations} from '../src/LocationUtils';
+import {createLocation, mergeLocations} from './LocationUtils';
 
 describe('LocationUtils', () => {
   describe('#createLocation', () => {

@@ -1,6 +1,6 @@
 import {shallow} from 'enzyme';
 import {expect} from 'chai';
-import renderTransitionContext from '../src/renderTransitionContext';
+import renderTransitionContext from './renderTransitionContext';
 
 describe('renderTransitionContext', () => {
   it('should render a TransitionContext', () => {

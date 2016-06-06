@@ -1,3 +1,6 @@
 module.exports = {
-  extends: 'doctolib/react',
+  extends: [
+    'doctolib/react',
+    'doctolib/test',
+  ],
 };

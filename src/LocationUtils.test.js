@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {createLocation, mergeLocations} from '../src/LocationUtils';
+import {createLocation, mergeLocations} from './LocationUtils';
 
 describe('LocationUtils', () => {
   describe('#createLocation', () => {
@@ -13,7 +13,7 @@ describe('LocationUtils', () => {
       it('should return an object with "pathname"', () => {
         expect(createLocation('/my/path'), 'createLocation() should return an object')
           .to.eql({
-            pathname: '/my/path'
+            pathname: '/my/path',
           });
       });
     });
@@ -21,10 +21,10 @@ describe('LocationUtils', () => {
     describe('with an object', () => {
       it('should return it', () => {
         expect(createLocation({
-          pathname: '/my/path'
+          pathname: '/my/path',
         }), 'createLocation() should return an object')
           .to.eql({
-            pathname: '/my/path'
+            pathname: '/my/path',
           });
       });
     });
@@ -42,8 +42,8 @@ describe('LocationUtils', () => {
         const location = {
           pathname: '/my/path',
           state: {
-            id: 23
-          }
+            id: 23,
+          },
         };
 
         const result = mergeLocations(location);
@@ -65,7 +65,7 @@ describe('LocationUtils', () => {
 
           expect(result, 'mergeLocations() should merge locations')
             .to.eql({
-              pathname: '/my/path2'
+              pathname: '/my/path2',
             });
         });
       });
@@ -74,14 +74,14 @@ describe('LocationUtils', () => {
         it('should merge state', () => {
           const location1 = {
             state: {
-              foo: 'bar'
-            }
+              foo: 'bar',
+            },
           };
 
           const location2 = {
             state: {
-              bar: 'foo'
-            }
+              bar: 'foo',
+            },
           };
 
           const result = mergeLocations(location1, location2);
@@ -90,8 +90,8 @@ describe('LocationUtils', () => {
             .to.eql({
               state: {
                 foo: 'bar',
-                bar: 'foo'
-              }
+                bar: 'foo',
+              },
             });
         });
       });

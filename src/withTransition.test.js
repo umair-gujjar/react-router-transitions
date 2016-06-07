@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import {shallow} from 'enzyme';
-import withTransition from '../src/withTransition';
+import withTransition from './withTransition';
 
 chai
   .use(dirtyChai)
@@ -24,16 +24,16 @@ describe('withTransition', () => {
     props = {
       location: {
         key: 'first',
-        pathname: '/first'
+        pathname: '/first',
       },
       route,
-      routes: [route]
+      routes: [route],
     };
 
     context = {
       transitionRouter: {
-        getLocationIndex: sinon.stub()
-      }
+        getLocationIndex: sinon.stub(),
+      },
     };
 
     BaseComponent = () => null;
@@ -41,7 +41,7 @@ describe('withTransition', () => {
       TransitionGroup,
       onShow: sinon.stub(),
       onDismiss: sinon.stub(),
-      defaultTransition: {transition: 'instant'}
+      defaultTransition: {transition: 'instant'},
     };
 
     WrappedComponent = withTransition(BaseComponent, transitionConfig);
@@ -77,19 +77,19 @@ describe('withTransition', () => {
       const wrapper = shallow(<WrappedComponent {...props} />, {context});
 
       transitionConfig.onShow.callsArgWith(2, {
-        transition: 'show'
+        transition: 'show',
       });
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(0);
 
       const nextLocation = {
         key: 'second',
-        pathname: '/second'
+        pathname: '/second',
       };
 
       const nextProps = {
         ...props,
-        location: nextLocation
+        location: nextLocation,
       };
 
       context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);
@@ -127,14 +127,14 @@ describe('withTransition', () => {
         pathname: '/second',
         state: {
           showTransition: {
-            transition: 'show-from-state'
-          }
-        }
+            transition: 'show-from-state',
+          },
+        },
       };
 
       const nextProps = {
         ...props,
-        location: nextLocation
+        location: nextLocation,
       };
 
       context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(2);
@@ -153,19 +153,19 @@ describe('withTransition', () => {
       const wrapper = shallow(<WrappedComponent {...props} />, {context});
 
       transitionConfig.onDismiss.callsArgWith(2, {
-        transition: 'dismiss'
+        transition: 'dismiss',
       });
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(1);
 
       const nextLocation = {
         key: 'second',
-        pathname: '/second'
+        pathname: '/second',
       };
 
       const nextProps = {
         ...props,
-        location: nextLocation
+        location: nextLocation,
       };
 
       context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(0);
@@ -196,8 +196,8 @@ describe('withTransition', () => {
     it('should use transition state', () => {
       props.location.state = {
         dismissTransition: {
-          transition: 'dismiss-from-state'
-        }
+          transition: 'dismiss-from-state',
+        },
       };
 
       const wrapper = shallow(<WrappedComponent {...props} />, {context});
@@ -206,12 +206,12 @@ describe('withTransition', () => {
 
       const nextLocation = {
         key: 'second',
-        pathname: '/second'
+        pathname: '/second',
       };
 
       const nextProps = {
         ...props,
-        location: nextLocation
+        location: nextLocation,
       };
 
       context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);

@@ -1,16 +1,16 @@
 import {shallow} from 'enzyme';
 import {expect} from 'chai';
-import renderTransitionContext from '../src/renderTransitionContext';
+import renderTransitionContext from './renderTransitionContext';
 
 describe('renderTransitionContext', () => {
   it('should render a TransitionContext', () => {
     const RouterContext = () => null;
     const transitionContext = renderTransitionContext({
       RouterContext,
-      otherConfigProp: true
+      otherConfigProp: true,
     })({
       location: {},
-      router: {}
+      router: {},
     });
 
     const wrapper = shallow(transitionContext);
@@ -21,7 +21,7 @@ describe('renderTransitionContext', () => {
     )
       .to.have.property('transitionConfig')
       .that.eql({
-        otherConfigProp: true
+        otherConfigProp: true,
       });
 
     expect(
@@ -41,7 +41,7 @@ describe('renderTransitionContext', () => {
       'RouterContext should be rendered with props'
     ).to.eql({
       location: {},
-      router: {}
+      router: {},
     });
   });
 });

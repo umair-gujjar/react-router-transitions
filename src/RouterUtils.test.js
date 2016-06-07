@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {getCompleteRoutesPath, getRoutePath} from '../src/RouterUtils';
+import {getCompleteRoutesPath, getRoutePath} from './RouterUtils';
 
 describe('RouterUtils', () => {
   describe('#getCompleteRoutesPath', () => {
@@ -28,7 +28,7 @@ describe('RouterUtils', () => {
             getCompleteRoutesPath([
               {path: '/initial/route'},
               {path: 'second/route'},
-              {path: 'third/route'}
+              {path: 'third/route'},
             ]),
             'getCompleteRoutesPath() should join path'
           ).to.equal('/initial/route/second/route/third/route');
@@ -42,7 +42,7 @@ describe('RouterUtils', () => {
               {path: '/initial/route'},
               {path: 'second/route'},
               {path: '/third/route'},
-              {path: 'fourth/route'}
+              {path: 'fourth/route'},
             ]),
             'getCompleteRoutesPath() should join path'
           ).to.equal('/third/route/fourth/route');
@@ -57,7 +57,7 @@ describe('RouterUtils', () => {
         {path: '/initial/route'},
         {path: 'second/route'},
         {path: 'third/route'},
-        {path: 'fourth/route'}
+        {path: 'fourth/route'},
       ];
 
       const route = routes[2];

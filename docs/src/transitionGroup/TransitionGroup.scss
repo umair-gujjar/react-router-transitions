@@ -1,0 +1,320 @@
+$transition-group-zindex-bottom: 10;
+$transition-group-zindex-top: 20;
+$transition-group-duration: 500ms; // emulate iOS
+$transition-group-timing-function: cubic-bezier(.36, .66, .04, 1); // emulate iOS
+
+.transition-group {
+  z-index: $transition-group-zindex-top;
+  // Prepare for animation
+  transform: translateZ(0);
+  animation-fill-mode: forwards;
+}
+
+.transition-group-container {
+  display: flex;
+  overflow: hidden;
+
+  flex: 1 0 0;
+
+  // Support view container directly in an other view-container
+  // We display it in absolute to support animation
+  > .transition-group-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    flex: none;
+  }
+}
+
+.transition-group {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+// Animation
+// ------------------------------
+
+// transition: instant
+.transition-group-instant-leave {
+  z-index: $transition-group-zindex-bottom;
+}
+
+// SHOW
+// ====
+
+.transition-group-show-from-bottom-leave,
+.transition-group-show-from-left-leave,
+.transition-group-show-from-right-leave,
+.transition-group-show-from-top-leave {
+  z-index: $transition-group-zindex-bottom;
+  // disable user interaction whilst views are transitioning
+
+  pointer-events: none;
+}
+
+.transition-group-show-from-top-enter,
+.transition-group-show-from-right-enter,
+.transition-group-show-from-bottom-enter,
+.transition-group-show-from-left-enter {
+  z-index: $transition-group-zindex-top;
+
+  visibility: hidden;
+  // disable user interaction whilst views are transitioning
+
+  pointer-events: none;
+}
+
+.transition-group-show-from-top-enter-active,
+.transition-group-show-from-right-enter-active,
+.transition-group-show-from-bottom-enter-active,
+.transition-group-show-from-left-enter-active {
+  visibility: visible;
+}
+
+.transition-group-show-from-top-enter-active {
+  animation-name: viewShowFromTopEnter;
+}
+
+.transition-group-show-from-right-enter-active {
+  animation-name: viewShowFromRightEnter;
+}
+
+.transition-group-show-from-bottom-enter-active {
+  animation-name: viewShowFromBottomEnter;
+}
+
+.transition-group-show-from-left-enter-active {
+  animation-name: viewShowFromLeftEnter;
+}
+
+.transition-group-show-from-left-leave {
+  animation-name: viewShowFromLeftLeave;
+}
+
+.transition-group-show-from-right-leave {
+  animation-name: viewShowFromRightLeave;
+}
+
+.transition-group-show-from-top-enter-active,
+.transition-group-show-from-bottom-enter-active,
+.transition-group-show-from-left-enter-active,
+.transition-group-show-from-right-enter-active,
+.transition-group-show-from-left-leave,
+.transition-group-show-from-right-leave {
+  animation-duration: $transition-group-duration;
+  animation-timing-function: $transition-group-timing-function;
+}
+
+// REVEAL
+// ======
+
+.transition-group-reveal-from-bottom-leave,
+.transition-group-reveal-from-left-leave,
+.transition-group-reveal-from-right-leave,
+.transition-group-reveal-from-top-leave {
+  z-index: $transition-group-zindex-top;
+  // disable user interaction whilst views are transitioning
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.transition-group-reveal-from-top-enter,
+.transition-group-reveal-from-right-enter,
+.transition-group-reveal-from-bottom-enter,
+.transition-group-reveal-from-left-enter {
+  z-index: $transition-group-zindex-bottom;
+
+  visibility: hidden;
+  // disable user interaction whilst views are transitioning
+
+  pointer-events: none;
+}
+
+.transition-group-reveal-from-top-enter-active,
+.transition-group-reveal-from-right-enter-active,
+.transition-group-reveal-from-bottom-enter-active,
+.transition-group-reveal-from-left-enter-active {
+  visibility: visible;
+}
+
+.transition-group-reveal-from-top-leave {
+  animation-name: viewRevealFromTopLeave;
+}
+
+.transition-group-reveal-from-right-leave {
+  animation-name: viewRevealFromRightLeave;
+}
+
+.transition-group-reveal-from-bottom-leave {
+  animation-name: viewRevealFromBottomLeave;
+}
+
+.transition-group-reveal-from-left-leave {
+  animation-name: viewRevealFromLeftLeave;
+}
+
+.transition-group-reveal-from-left-enter-active {
+  animation-name: viewRevealFromLeftEnter;
+}
+
+.transition-group-reveal-from-right-enter-active {
+  animation-name: viewRevealFromRightEnter;
+}
+
+.transition-group-reveal-from-top-leave,
+.transition-group-reveal-from-right-leave,
+.transition-group-reveal-from-bottom-leave,
+.transition-group-reveal-from-left-leave,
+.transition-group-reveal-from-left-enter-active,
+.transition-group-reveal-from-right-enter-active {
+  animation-duration: $transition-group-duration;
+  animation-timing-function: $transition-group-timing-function;
+}
+
+//
+// Animations
+// ==============================
+
+// Views
+// ------------------------------
+
+// SHOW
+// ====
+
+// From Left
+@keyframes viewShowFromLeftEnter {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes viewShowFromLeftLeave {
+  to {
+    transform: translate3d(25%, 0, 0);
+
+    opacity: .75;
+  }
+}
+
+// From right
+@keyframes viewShowFromRightEnter {
+  from {
+    transform: translate3d(99%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes viewShowFromRightLeave {
+  to {
+    transform: translate3d(-25%, 0, 0);
+
+    opacity: .75;
+  }
+}
+
+// From top
+@keyframes viewShowFromTopEnter {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+// From bottom
+@keyframes viewShowFromBottomEnter {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+// REVEAL
+// ======
+
+// From left
+@keyframes viewRevealFromLeftLeave {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+@keyframes viewRevealFromLeftEnter {
+  from {
+    transform: translate3d(25%, 0, 0);
+
+    opacity: .75;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+
+    opacity: 1;
+  }
+}
+
+// From right
+@keyframes viewRevealFromRightLeave {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+@keyframes viewRevealFromRightEnter {
+  from {
+    transform: translate3d(-25%, 0, 0);
+
+    opacity: .75;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+
+    opacity: 1;
+  }
+}
+
+// From top
+@keyframes viewRevealFromTopLeave {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+// From bottom
+@keyframes viewRevealFromBottomLeave {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}

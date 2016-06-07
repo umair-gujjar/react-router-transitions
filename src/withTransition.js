@@ -1,4 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, {
+  PropTypes,
+  Children,
+  isValidElement,
+  cloneElement,
+} from 'react';
 import {getRoutePath} from './RouterUtils';
 import {SHOW, DISMISS} from './TransitionActions';
 
@@ -156,9 +161,9 @@ export default (Component, transitionConfig) => (
       return (
         <Component {...props}>
           <TransitionGroup {...this.state.transition}>
-            {React.Children.map(children, child =>
-              React.isValidElement(child)
-                ? React.cloneElement(child, {key: getComponentKey(child, this.props)})
+            {Children.map(children, child =>
+              isValidElement(child)
+                ? cloneElement(child, {key: getComponentKey(child, this.props)})
                 : null
             )}
           </TransitionGroup>

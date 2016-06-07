@@ -3,6 +3,7 @@ import React from 'react';
 import Head from './Head';
 import Body from './Body';
 import Footer from './Footer';
+import {Link} from 'react-router';
 
 const Main = () => (
   <div>
@@ -15,7 +16,11 @@ const Main = () => (
       </a>
     </Head>
     <Body>
-      Body
+      For now we don't have much to show, only:
+      <ul>
+        <li><Link to="/transition-group">An implementation example of the low level TransitionGroup</Link></li>
+        <li><Link to="/react-router-transitions">A simple demo</Link></li>
+      </ul>
       <Footer
         maintainerName="doctolib"
         maintainerUrl="https://github.com/doctolib"

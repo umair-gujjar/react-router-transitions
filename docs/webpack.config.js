@@ -19,7 +19,7 @@ export default function (options) {
       extensions: ['', '.js'],
       root: path.join(__dirname, 'src'),
       alias: {
-        'react-swipeable-views': path.resolve(__dirname, '../src'),
+        'react-router-transitions': path.resolve(__dirname, '../src'),
       },
     },
     postcss: [
@@ -73,11 +73,12 @@ export default function (options) {
         loader: 'babel-loader',
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         loaders: [
           'style-loader',
           'css-loader',
           'postcss-loader',
+          'sass-loader',
         ],
       },
     ];
@@ -107,10 +108,10 @@ export default function (options) {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader!postcss-loader'
+          'css-loader!postcss-loader!sass-loader'
         ),
       },
     ];

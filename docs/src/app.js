@@ -8,7 +8,6 @@ import 'transitionGroup/TransitionGroup.scss';
 import routes from 'routes';
 import 'normalize.scss';
 import 'stylesheet.scss';
-import 'github-light.scss';
 
 function onShow(prevState, nextState, replace) {
   if (nextState.location.state && nextState.location.state.showTransition) {

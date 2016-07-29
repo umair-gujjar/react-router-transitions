@@ -19,7 +19,7 @@ export const getChildContext = (Component, props) => {
   const wrapper = mount(
     <Component {...props}>
       <ChildContextGetter />
-    </Component>
+    </Component>,
   );
 
   return {context, wrapper};

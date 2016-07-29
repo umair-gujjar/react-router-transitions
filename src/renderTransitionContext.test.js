@@ -17,7 +17,7 @@ describe('renderTransitionContext', () => {
 
     expect(
       wrapper.instance().props,
-      'TransitionContext should be rendered with prop "transitionConfig"'
+      'TransitionContext should be rendered with prop "transitionConfig"',
     )
       .to.have.property('transitionConfig')
       .that.eql({
@@ -26,19 +26,19 @@ describe('renderTransitionContext', () => {
 
     expect(
       wrapper.instance().props,
-      'TransitionContext should be rendered with prop "router"'
+      'TransitionContext should be rendered with prop "router"',
     )
     .to.have.property('router');
 
     expect(
       wrapper.instance().props,
-      'TransitionContext should be rendered with prop "location"'
+      'TransitionContext should be rendered with prop "location"',
     )
       .to.have.property('location');
 
     expect(
       wrapper.last().props(),
-      'RouterContext should be rendered with props'
+      'RouterContext should be rendered with props',
     ).to.eql({
       location: {},
       router: {},

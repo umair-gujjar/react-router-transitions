@@ -111,7 +111,7 @@ export default function (options) {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader!postcss-loader!sass-loader'
+          'css-loader!postcss-loader!sass-loader',
         ),
       },
     ];

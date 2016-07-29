@@ -1,11 +1,11 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {hashHistory, RouterContext, Router} from 'react-router';
-import {renderTransitionContext} from 'react-router-transitions';
+import {hashHistory, Router} from 'react-router';
+import {applyRouterMiddleware} from 'react-router';
+import {useTransitions} from 'react-router-transitions';
 import TransitionGroup from 'transitionGroup/TransitionGroupCSS';
-import 'transitionGroup/TransitionGroup.scss';
-
 import routes from 'routes';
+import 'transitionGroup/TransitionGroup.scss';
 import 'normalize.scss';
 import 'stylesheet.scss';
 
@@ -46,12 +46,11 @@ function onDismiss(prevState, nextState, replace) {
 render(
   <Router
     history={hashHistory}
-    render={renderTransitionContext({
-      RouterContext,
+    render={applyRouterMiddleware(useTransitions({
       TransitionGroup,
       onShow,
       onDismiss,
-    })}
+    }))}
   >
     {routes}
   </Router>

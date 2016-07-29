@@ -116,21 +116,21 @@ describe('TransitionContext', () => {
         expect(
           getLocationIndex(secondLocation),
           `context.transitionRouter.getLocationIndex(secondLocation)
-            should return secondLocation index (1)`
+            should return secondLocation index (1)`,
         )
           .to.equal(1);
 
         expect(
           getLocationIndex(thirdLocation),
           `context.transitionRouter.getLocationIndex(thirdLocation
-            should return thirdLocation index (2)`
+            should return thirdLocation index (2)`,
         )
           .to.equal(2);
 
         expect(
           getLocationIndex(),
           `context.transitionRouter.getLocationIndex()
-            should last location index (2)`
+            should last location index (2)`,
         )
           .to.equal(2);
       });

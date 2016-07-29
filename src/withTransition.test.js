@@ -52,22 +52,22 @@ describe('withTransition', () => {
       const wrapper = shallow(<WrappedComponent {...props} />, {context});
       expect(
         wrapper.props(),
-        'component should get parent properties'
+        'component should get parent properties',
       ).to.have.property('location', props.location);
 
       expect(
         wrapper.props(),
-        'component should get parent properties'
+        'component should get parent properties',
       ).to.have.property('route', props.route);
 
       expect(
         wrapper.props(),
-        'component should get parent properties'
+        'component should get parent properties',
       ).to.have.property('routes', props.routes);
 
       expect(
         wrapper.children().props(),
-        'transition group should get default transition'
+        'transition group should get default transition',
       ).to.have.property('transition', 'instant');
     });
   });
@@ -98,22 +98,22 @@ describe('withTransition', () => {
 
       expect(
         transitionConfig.onShow,
-        'onShow hook should be called once'
+        'onShow hook should be called once',
       ).to.be.calledOnce();
 
       expect(
         transitionConfig.onShow,
-        'onShow hook should be called with instance as this'
+        'onShow hook should be called with instance as this',
       ).to.be.calledOn(wrapper.instance());
 
       expect(
         transitionConfig.onShow,
-        'onShow hook should be called with props'
+        'onShow hook should be called with props',
       ).to.be.calledWith(props, nextProps);
 
       expect(
         wrapper.children().props(),
-        'transition group should get "show" transition'
+        'transition group should get "show" transition',
       ).to.have.property('transition', 'show');
     });
 
@@ -143,7 +143,7 @@ describe('withTransition', () => {
 
       expect(
         wrapper.children().props(),
-        'transition group should get "show-from-state" transition'
+        'transition group should get "show-from-state" transition',
       ).to.have.property('transition', 'show-from-state');
     });
   });
@@ -174,22 +174,22 @@ describe('withTransition', () => {
 
       expect(
         transitionConfig.onDismiss,
-        'onDismiss hook should be called once'
+        'onDismiss hook should be called once',
       ).to.be.calledOnce();
 
       expect(
         transitionConfig.onDismiss,
-        'onDismiss hook should be called with instance as this'
+        'onDismiss hook should be called with instance as this',
       ).to.be.calledOn(wrapper.instance());
 
       expect(
         transitionConfig.onDismiss,
-        'onDismiss hook should be called with props'
+        'onDismiss hook should be called with props',
       ).to.be.calledWith(props, nextProps);
 
       expect(
         wrapper.children().props(),
-        'transition group should get "dismiss" transition'
+        'transition group should get "dismiss" transition',
       ).to.have.property('transition', 'dismiss');
     });
 
@@ -220,7 +220,7 @@ describe('withTransition', () => {
 
       expect(
         wrapper.children().props(),
-        'transition group should get "dismiss-from-state" transition'
+        'transition group should get "dismiss-from-state" transition',
       ).to.have.property('transition', 'dismiss-from-state');
     });
   });

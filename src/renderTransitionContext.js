@@ -1,7 +1,10 @@
 import React from 'react';
 import TransitionContext from './TransitionContext';
+import warning from 'warning';
 
-export default contextConfig => props => {
+const renderTransitionContext = contextConfig => props => {
+  warning(false, 'Using renderTransitionContext has been deprecated, use useTransitions instead.');
+
   const {RouterContext, ...transitionConfig} = contextConfig;
   return (
     <TransitionContext {...{transitionConfig, ...props}}>
@@ -9,3 +12,6 @@ export default contextConfig => props => {
     </TransitionContext>
   );
 };
+
+
+export default renderTransitionContext;

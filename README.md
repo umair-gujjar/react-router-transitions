@@ -19,15 +19,15 @@ npm install react-router-transitions
 ### Set up routes
 
 The requirement to use this module is to set up transition context at the root level
-of your application using `renderTransitionContext`.
+of your application using `useTransitions`.
 
 Then you can enable transitions at several levels of your application using `withTransition`.
 In a simple application, you should only wrap your root component.
 
 ```js
 import React from 'react';
-import RouterContext from 'react-router/lib/RouterContext';
-import {renderTransitionContext, withTransition} from 'react-router-transitions';
+import {applyRouterMiddleware} from 'react-router';
+import {useTransitions, withTransition} from 'react-router-transitions';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import App from './App';
 import Home from './Home';
@@ -36,15 +36,14 @@ import AboutUs from './AboutUs';
 export default () => (
   <Router
     history={browserHistory}
-    render={renderTransitionContext({
-      RouterContext,
+    render={applyRouterMiddleware(useTransitions({
       TransitionGroup: ReactCSSTransitionGroup,
       defaultTransition: {
         transitionName: 'fade',
         transitionEnterTimeout: 500,
         transitionLeaveTimeout: 300
       }
-    })}
+    }))}
   >
     <Route path="/" component={withTransition(App)}>
       <Route path="home" component={Home} />
@@ -140,11 +139,10 @@ export default class Home extends Component {
 
 ## API
 
-### renderTransitionContext(options)
+### useTransitions(options)
 
 Available options are:
 
-- `RouterContext`: Usually the router context component of react-router.
 - `TransitionGroup`: The transition group component used to make transition. You can use any kind of transition group, [ReactCSSTransitionGroup](https://facebook.github.io/react/docs/animation.html) being the default.
 Transition specified in `showTransition`, `dismissTransition` or `defaultTransition` are the properties used to render your `TransitionGroup`.
 - `defaultTransition`: The default transition applied on the component. The default transition is applied
@@ -158,15 +156,14 @@ This method has to be called in the render method of the Router component.
 ```js
 <Router
   history={browserHistory}
-  render={renderTransitionContext({
-    RouterContext,
+  render={applyRouterMiddleware(useTransitions({
     TransitionGroup: ReactCSSTransitionGroup,
     defaultTransition: {
       transitionName: 'fade',
       transitionEnterTimeout: 500,
       transitionLeaveTimeout: 300
     }
-  })}
+  }))}
 />
 ```
 
@@ -174,7 +171,7 @@ This method has to be called in the render method of the Router component.
 
 Enable transitions in the component (children of the component will be animated).
 
-The config provided is merged with the config provided into `renderTransitionContext`.
+The config provided is merged with the config provided into `useTransitions`.
 
 In a simple application, this high order component has to be applied at the root level.
 
@@ -196,8 +193,7 @@ You can use hooks to determine transitions automatically without having to speci
 ```js
 <Router
   history={browserHistory}
-  render={renderTransitionContext({
-    RouterContext,
+  render={applyRouterMiddleware(useTransitions({
     TransitionGroup: ReactCSSTransitionGroup,
     onShow(prevState, nextState, replaceTransition) {
       return {
@@ -218,7 +214,7 @@ You can use hooks to determine transitions automatically without having to speci
       transitionEnterTimeout: 500,
       transitionLeaveTimeout: 300,
     },
-  })}
+  }))}
 >
   <Route path="/" component={withTransition(App)}>
     <Route path="home" component={Home} transition="from-right" />

@@ -161,10 +161,11 @@ export default (Component, transitionConfig) => (
       return (
         <Component {...props}>
           <TransitionGroup {...this.state.transition}>
-            {Children.map(children, child =>
+            {Children.map(children, child => (
               isValidElement(child)
                 ? cloneElement(child, {key: getComponentKey(child, this.props)})
                 : null
+              ),
             )}
           </TransitionGroup>
         </Component>

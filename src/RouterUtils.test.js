@@ -7,7 +7,7 @@ describe('RouterUtils', () => {
       it('should return path', () => {
         expect(
           getCompleteRoutesPath([{path: '/foo/bar'}]),
-          'getCompleteRoutesPath() should return route path'
+          'getCompleteRoutesPath() should return route path',
         ).to.equal('/foo/bar');
       });
     });
@@ -16,7 +16,7 @@ describe('RouterUtils', () => {
       it('should return path prefixed with "/"', () => {
         expect(
           getCompleteRoutesPath([{path: 'foo/bar'}]),
-          'getCompleteRoutesPath() should return route path prefixed with "/"'
+          'getCompleteRoutesPath() should return route path prefixed with "/"',
         ).to.equal('/foo/bar');
       });
     });
@@ -30,7 +30,7 @@ describe('RouterUtils', () => {
               {path: 'second/route'},
               {path: 'third/route'},
             ]),
-            'getCompleteRoutesPath() should join path'
+            'getCompleteRoutesPath() should join path',
           ).to.equal('/initial/route/second/route/third/route');
         });
       });
@@ -44,7 +44,7 @@ describe('RouterUtils', () => {
               {path: '/third/route'},
               {path: 'fourth/route'},
             ]),
-            'getCompleteRoutesPath() should join path'
+            'getCompleteRoutesPath() should join path',
           ).to.equal('/third/route/fourth/route');
         });
       });
@@ -64,7 +64,7 @@ describe('RouterUtils', () => {
 
       expect(
         getRoutePath(route, routes),
-        'getRouteChildPath() should join path to the route'
+        'getRouteChildPath() should join path to the route',
       ).to.equal('/initial/route/second/route/third/route');
     });
   });

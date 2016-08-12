@@ -8,8 +8,9 @@ export const mergeLocations = (...locations) => {
   return locations.reduce((res, loc) => {
     const newRes = {...res, ...loc};
 
-    if (loc.state)
+    if (loc.state) {
       newRes.state = {...res.state, ...loc.state};
+    }
 
     return newRes;
   }, {});
@@ -22,8 +23,9 @@ export const mergeLocations = (...locations) => {
  * @returns {object}
  */
 export const createLocation = location => {
-  if (typeof location === 'string')
+  if (typeof location === 'string') {
     return {pathname: location};
+  }
 
   return location || {};
 };

@@ -1,18 +1,24 @@
 # react-router-transitions
-[![Build Status](https://travis-ci.org/doctolib/react-router-transitions.svg?branch=master)](https://travis-ci.org/doctolib/react-router-transitions)
-[![Dependency Status](https://david-dm.org/doctolib/react-router-transitions.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions)
-[![devDependency Status](https://david-dm.org/doctolib/react-router-transitions/dev-status.svg?theme=shields.io)](https://david-dm.org/doctolib/react-router-transitions#info=devDependencies)
 
 > Brings transitions to react-router.
 
-The main goal of this module is to handle history navigation by providing the correct animation if the user goes back or goes forward.
-It is a requirement especially on mobile to provide a great user experience.
+[![npm version](https://img.shields.io/npm/v/react-router-transitions.svg?style=flat-square)](https://www.npmjs.com/package/react-router-transitions)
+[![npm downloads](https://img.shields.io/npm/dm/react-router-transitions.svg?style=flat-square)](https://www.npmjs.com/package/react-router-transitions)
+[![Build Status](https://travis-ci.org/doctolib/react-router-transitions.svg?branch=master)](https://travis-ci.org/doctolib/react-router-transitions)
 
-## Install
+[![Dependencies](https://img.shields.io/david/doctolib/react-router-transitions.svg?style=flat-square)](https://david-dm.org/doctolib/react-router-transitions)
+[![DevDependencies](https://img.shields.io/david/dev/doctolib/react-router-transitions.svg?style=flat-square)](https://david-dm.org/doctolib/react-router-transitions#info=devDependencies&view=list)
+
+## Installation
 
 ```sh
-npm install react-router-transitions
+npm install --save react-router-transitions
 ```
+
+## The problem solved
+
+The main goal of this module is to handle history navigation by providing the correct animation if the user goes back or goes forward.
+It is a requirement especially on mobile to provide a great user experience.
 
 ## Getting started
 

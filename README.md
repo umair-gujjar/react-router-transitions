@@ -32,7 +32,7 @@ In a simple application, you should only wrap your root component.
 
 ```js
 import React from 'react';
-import {applyRouterMiddleware} from 'react-router';
+import {Router, Route, browserHistory, applyRouterMiddleware} from 'react-router';
 import {useTransitions, withTransition} from 'react-router-transitions';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import App from './App';

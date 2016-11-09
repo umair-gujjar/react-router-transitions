@@ -1,12 +1,25 @@
-import jsdom from 'mocha-jsdom';
-import chai, {expect} from 'chai';
+import chai, {expect, assert} from 'chai';
 import {spy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import dirtyChai from 'dirty-chai';
+import {jsdom} from 'jsdom';
 import {getChildContext} from '../test/TestHelpers';
 import TransitionContext from './TransitionContext';
 import {PUSH} from './HistoryActions';
 import {DISMISS} from './TransitionActions';
+
+/**
+ * Bootstrap the DOM environment in node
+ */
+
+global.document = jsdom('');
+global.window = document.defaultView;
+
+Object.keys(document.defaultView).forEach(property => {
+  if (typeof global[property] === 'undefined') {
+    global[property] = document.defaultView[property];
+  }
+});
 
 chai
   .use(dirtyChai)
@@ -14,8 +27,6 @@ chai
 
 describe('TransitionContext', () => {
   let props;
-
-  jsdom();
 
   beforeEach(() => {
     props = {
@@ -26,7 +37,7 @@ describe('TransitionContext', () => {
         },
       },
       router: {
-        goBack: spy(),
+        go: spy(),
         push: spy(),
         replace: spy(),
       },
@@ -139,7 +150,7 @@ describe('TransitionContext', () => {
 
   describe('#dismiss', () => {
     describe('with an history of location', () => {
-      it('should call router.goBack()', () => {
+      it('should call router.go()', () => {
         const {
           wrapper,
           context: {
@@ -161,13 +172,14 @@ describe('TransitionContext', () => {
 
         dismiss();
 
-        expect(props.router.goBack, 'props.router.goBack should be called once')
-          .to.be.calledOnce();
+        expect(props.router.go, 'props.router.go should be called once').to.be.calledOnce();
+        assert.strictEqual(props.router.go.args[0][0], -1);
+        assert.strictEqual(props.router.replace.callCount, 0, 'props.router.replace should not be called');
       });
     });
 
     describe('without an history of location', () => {
-      it('should swap location with action DISMISS', () => {
+      it('should swap location with action DISMISS', done => {
         const {
           context: {
             transitionRouter: {
@@ -178,15 +190,62 @@ describe('TransitionContext', () => {
 
         dismiss();
 
-        expect(props.router.replace, 'props.router.replace should be called once')
-          .to.be.calledOnce();
-        expect(props.router.replace, 'props.router.replace should be called with merged location')
-          .to.be.calledWith({
-            state: {
-              first: true,
-              transitionAction: DISMISS,
+        setTimeout(() => {
+          expect(props.router.replace, 'props.router.replace should be called once').to.be.calledOnce();
+          expect(props.router.replace, 'props.router.replace should be called with merged location')
+            .to.be.calledWith({
+              state: {
+                first: true,
+                transitionAction: DISMISS,
+              },
+            });
+          assert.strictEqual(props.router.go.callCount, 0, 'props.router.go should not be called');
+          done();
+        }, 0);
+      });
+    });
+
+    describe('depth option', () => {
+      it('should call router.go() and swap location with action DISMISS', done => {
+        const {
+          wrapper,
+          context: {
+            transitionRouter: {
+              dismiss,
             },
-          });
+          },
+        } = getChildContext(TransitionContext, props);
+
+        const secondLocation = {
+          key: 'second-location',
+          action: PUSH,
+        };
+
+        wrapper.setProps({
+          ...props,
+          location: secondLocation,
+        });
+
+        dismiss('/', {
+          depth: 2,
+        });
+
+        expect(props.router.go, 'props.router.go should be called once').to.be.calledOnce();
+        assert.strictEqual(props.router.go.args[0][0], -1);
+
+        setTimeout(() => {
+          expect(props.router.replace, 'props.router.replace should be called once')
+            .to.be.calledOnce();
+          expect(props.router.replace, 'props.router.replace should be called with merged location')
+            .to.be.calledWith({
+              action: PUSH,
+              pathname: '/',
+              state: {
+                transitionAction: DISMISS,
+              },
+            });
+          done();
+        }, 0);
       });
     });
   });

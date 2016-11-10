@@ -16,8 +16,7 @@ describe('withTransition', () => {
   beforeEach(() => {
     const route = {};
 
-    const TransitionGroup = ({children}) =>
-      <div className="transition-group">{children}</div>;
+    const TransitionGroup = ({children}) => <div className="transition-group">{children}</div>;
 
     TransitionGroup.propTypes = {children: PropTypes.node};
 
@@ -203,6 +202,37 @@ describe('withTransition', () => {
       const wrapper = shallow(<WrappedComponent {...props} />, {context});
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(2);
+
+      const nextLocation = {
+        key: 'second',
+        pathname: '/second',
+      };
+
+      const nextProps = {
+        ...props,
+        location: nextLocation,
+      };
+
+      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);
+
+      wrapper.setProps(nextProps);
+
+      expect(
+        wrapper.children().props(),
+        'transition group should get "dismiss-from-state" transition',
+      ).to.have.property('transition', 'dismiss-from-state');
+    });
+
+    it('should use transition state even for multi depth level', () => {
+      props.location.state = {
+        dismissTransition: {
+          transition: 'dismiss-from-state',
+        },
+      };
+
+      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+
+      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(3);
 
       const nextLocation = {
         key: 'second',

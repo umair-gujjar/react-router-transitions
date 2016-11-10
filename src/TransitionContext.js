@@ -65,14 +65,27 @@ export default class TransitionContext extends React.Component {
    * any history.
    *
    * @param {object} location
+   * @param {object} options
    */
-  dismiss(location) {
-    if (this.getLocationIndex() > 0) {
-      this.props.router.goBack();
-    } else {
-      location = createLocation(location);
-      this.swap(location, DISMISS);
+  dismiss(location, options = {}) {
+    const {
+      depth = 1,
+    } = options;
+
+    const goBackDepth = Math.min(this.getLocationIndex(), depth);
+    const goBackUnreachable = depth - this.getLocationIndex();
+
+    if (goBackDepth > 0) {
+      this.props.router.go(-goBackDepth);
     }
+
+    // We run the swap asynchronously as we need history to update his internal state.
+    setTimeout(() => {
+      if (goBackUnreachable > 0) {
+        location = createLocation(location);
+        this.swap(location, DISMISS);
+      }
+    }, 0);
   }
 
   /**

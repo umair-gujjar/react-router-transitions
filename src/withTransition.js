@@ -27,7 +27,9 @@ export default (Component, transitionConfig) => (
         ...this.context.transitionRouter.config,
         ...transitionConfig,
       };
-      this.state = {transition: this.config.defaultTransition};
+      this.state = {
+        transition: this.config.defaultTransition,
+      };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,6 +47,7 @@ export default (Component, transitionConfig) => (
      */
     getTransition(props, nextProps) {
       const transitionType = this.getTransitionType(props.location, nextProps.location);
+
       switch (transitionType) {
         case SHOW:
           return this.getShowTransition(props, nextProps);
@@ -120,14 +123,19 @@ export default (Component, transitionConfig) => (
       if (nextLocation.state && (
         nextLocation.state.transitionAction === SHOW
           || nextLocation.state.transitionAction === DISMISS
-      ))
+      )) {
         return nextLocation.state.transitionAction;
+      }
+
       // Push
-      if (locationIndex >= 0 && nextLocationIndex === locationIndex + 1)
+      if (locationIndex >= 0 && nextLocationIndex === locationIndex + 1) {
         return SHOW;
+      }
+
       // Go back or explicit dismiss (first action on refresh)
-      else if (locationIndex >= 0 && nextLocationIndex === locationIndex - 1)
+      if (locationIndex >= 0 && nextLocationIndex <= locationIndex - 1) {
         return DISMISS;
+      }
 
       return null;
     }
@@ -150,7 +158,7 @@ export default (Component, transitionConfig) => (
     render() {
       const {
         children,
-        ...props,
+        ...props
       } = this.props;
 
       const {

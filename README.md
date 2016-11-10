@@ -76,14 +76,17 @@ It adds a new entry in the history to give the user the ability to use the back 
 
 Internally, it uses the `router.push` method.
 
-#### transitionRouter.dismiss(location)
+#### transitionRouter.dismiss(location, options)
 
 Go to a location using a `dismiss` animation.
 You have to use this method when you want to hide a view (e.g. simulate a *close* or a *go back*).
 
+The `options` argument accept an object.
+- `depth`: default to 1. Is the number of history records you want to revert.
+
 It doesn't add a new entry in the history.
 
-Internally, if we have an history, it uses the `router.goBack` method, otherwise it uses `transitionRouter.swap` with a `dismiss` action.
+Internally, if we have an history, it uses the `router.go(-n)` method, otherwise it uses `transitionRouter.swap` with a `dismiss` action.
 
 #### transitionRouter.swap(location, [transitionAction])
 

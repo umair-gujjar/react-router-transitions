@@ -205,18 +205,18 @@ You can use hooks to determine transitions automatically without having to speci
   render={applyRouterMiddleware(useTransitions({
     TransitionGroup: ReactCSSTransitionGroup,
     onShow(prevState, nextState, replaceTransition) {
-      return {
+      replaceTransition({
         transitionName: `show-${nextState.children.props.route.transition}`,
         transitionEnterTimeout: 500,
         transitionLeaveTimeout: 300,
-      };
+      });
     },
     onDismiss(prevState, nextState, replaceTransition) {
-      return {
+      replaceTransition({
         transitionName: `dismiss-${prevState.children.props.route.transition}`,
         transitionEnterTimeout: 500,
         transitionLeaveTimeout: 300,
-      };
+      });
     },
     defaultTransition: {
       transitionName: 'fade',

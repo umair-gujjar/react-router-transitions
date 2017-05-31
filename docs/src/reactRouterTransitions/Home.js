@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-no-bind */
-import React, {Component, PropTypes} from 'react';
-import Screen from 'transitionGroup/Screen';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Screen from '../transitionGroup/Screen'
 
-class Home extends Component {
+class Home extends React.Component {
   static contextTypes = {
     transitionRouter: PropTypes.object,
-  };
+  }
 
   handleClick(route, event) {
-    event.preventDefault();
-    this.context.transitionRouter.show(route);
+    event.preventDefault()
+    this.context.transitionRouter.show(route)
   }
 
   render() {
@@ -18,11 +19,13 @@ class Home extends Component {
         Home
         <br />
         <br />
-        <a onClick={this.handleClick.bind(this, '/react-router-transitions/login')}>Login</a>
-        <a onClick={this.handleClick.bind(this, '/react-router-transitions/search')}>Search</a>
+        <a role="button" tabIndex="0" onClick={this.handleClick.bind(this, '/react-router-transitions/login')}>Login</a>
+        <a role="button" tabIndex="0" onClick={this.handleClick.bind(this, '/react-router-transitions/search')}>
+          Search
+        </a>
       </Screen>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

@@ -1,10 +1,12 @@
-import React, {Component, PropTypes, cloneElement} from 'react';
-import {TransitionMotion, spring} from 'react-motion';
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { Component, cloneElement } from 'react'
+import PropTypes from 'prop-types'
+import { TransitionMotion, spring } from 'react-motion'
 
 const slideConfig = {
   stiffness: 390,
   damping: 30,
-};
+}
 
 const transitions = {
   'show-from-right': {
@@ -24,7 +26,7 @@ const transitions = {
       return {
         opacity: styles.opacity,
         transform: `translateX(${styles.offset}%)`,
-      };
+      }
     },
   },
   'reveal-from-right': {
@@ -44,61 +46,51 @@ const transitions = {
       return {
         opacity: styles.opacity,
         transform: `translateX(${styles.offset}%)`,
-      };
+      }
     },
   },
-};
+}
 
 export default class TransitionGroupMotion extends Component {
   static propTypes = {
     children: PropTypes.node,
-    transition: PropTypes.oneOf([
-      'show-from-right',
-      'reveal-from-right',
-    ]).isRequired,
-  };
+    transition: PropTypes.oneOf(['show-from-right', 'reveal-from-right']).isRequired,
+  }
 
-  willEnter = () => {
-    return transitions[this.props.transition].atEnter;
-  };
+  willEnter = () => transitions[this.props.transition].atEnter
 
-  willLeave = () => {
-    return transitions[this.props.transition].atLeave;
-  };
+  willLeave = () => transitions[this.props.transition].atLeave
 
   getStyles() {
     if (!this.props.children) {
-      return [];
+      return []
     }
 
-    return [{
-      key: this.props.children.props.name,
-      data: this.props.children,
-      style: transitions[this.props.transition].atActive,
-    }];
+    return [
+      {
+        key: this.props.children.props.name,
+        data: this.props.children,
+        style: transitions[this.props.transition].atActive,
+      },
+    ]
   }
 
   render() {
     return (
-      <TransitionMotion
-        willEnter={this.willEnter}
-        willLeave={this.willLeave}
-        styles={this.getStyles()}
-      >
+      <TransitionMotion willEnter={this.willEnter} willLeave={this.willLeave} styles={this.getStyles()}>
         {interpolatedStyles => (
           <div className="transition-group-container">
-            {interpolatedStyles.map(config => {
+            {interpolatedStyles.map((config) => {
               const props = {
-                style: transitions[this.props.transition]
-                  .mapStyles(config.style),
+                style: transitions[this.props.transition].mapStyles(config.style),
                 key: config.key,
-              };
+              }
 
-              return cloneElement(config.data, props);
+              return cloneElement(config.data, props)
             })}
           </div>
         )}
       </TransitionMotion>
-    );
+    )
   }
 }

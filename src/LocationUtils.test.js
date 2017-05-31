@@ -1,41 +1,36 @@
-import {expect} from 'chai';
-import {createLocation, mergeLocations} from './LocationUtils';
+import { createLocation, mergeLocations } from './LocationUtils'
 
 describe('LocationUtils', () => {
   describe('#createLocation', () => {
     describe('without location', () => {
       it('should return an object', () => {
-        expect(createLocation(), 'createLocation() should return an object').to.eql({});
-      });
-    });
+        expect(createLocation()).toEqual({})
+      })
+    })
 
     describe('with a string', () => {
       it('should return an object with "pathname"', () => {
-        expect(createLocation('/my/path'), 'createLocation() should return an object')
-          .to.eql({
-            pathname: '/my/path',
-          });
-      });
-    });
+        expect(createLocation('/my/path')).toEqual({ pathname: '/my/path' })
+      })
+    })
 
     describe('with an object', () => {
       it('should return it', () => {
-        expect(createLocation({
-          pathname: '/my/path',
-        }), 'createLocation() should return an object')
-          .to.eql({
+        expect(
+          createLocation({
             pathname: '/my/path',
-          });
-      });
-    });
-  });
+          }),
+        ).toEqual({ pathname: '/my/path' })
+      })
+    })
+  })
 
   describe('#mergeLocations', () => {
     describe('without argument', () => {
       it('should return an object', () => {
-        expect(mergeLocations(), 'mergeLocations() should return an object').to.eql({});
-      });
-    });
+        expect(mergeLocations()).toEqual({})
+      })
+    })
 
     describe('with one location', () => {
       it('should clone location', () => {
@@ -44,31 +39,26 @@ describe('LocationUtils', () => {
           state: {
             id: 23,
           },
-        };
+        }
 
-        const result = mergeLocations(location);
+        const result = mergeLocations(location)
 
-        expect(result, 'mergeLocations() should clone location')
-          .to.not.equal(location);
-        expect(result, 'mergeLocations() should clone location')
-          .to.eql(location);
-      });
-    });
+        expect(result).not.toBe(location)
+        expect(result).toEqual(location)
+      })
+    })
 
     describe('with several locations', () => {
       describe('without state', () => {
         it('should merge them', () => {
-          const location1 = {pathname: '/my/path1'};
-          const location2 = {pathname: '/my/path2'};
+          const location1 = { pathname: '/my/path1' }
+          const location2 = { pathname: '/my/path2' }
 
-          const result = mergeLocations(location1, location2);
+          const result = mergeLocations(location1, location2)
 
-          expect(result, 'mergeLocations() should merge locations')
-            .to.eql({
-              pathname: '/my/path2',
-            });
-        });
-      });
+          expect(result).toEqual({ pathname: '/my/path2' })
+        })
+      })
 
       describe('with state', () => {
         it('should merge state', () => {
@@ -76,25 +66,24 @@ describe('LocationUtils', () => {
             state: {
               foo: 'bar',
             },
-          };
+          }
 
           const location2 = {
             state: {
               bar: 'foo',
             },
-          };
+          }
 
-          const result = mergeLocations(location1, location2);
+          const result = mergeLocations(location1, location2)
 
-          expect(result, 'mergeLocations() should merge location states')
-            .to.eql({
-              state: {
-                foo: 'bar',
-                bar: 'foo',
-              },
-            });
-        });
-      });
-    });
-  });
-});
+          expect(result).toEqual({
+            state: {
+              foo: 'bar',
+              bar: 'foo',
+            },
+          })
+        })
+      })
+    })
+  })
+})

@@ -1,54 +1,47 @@
 /* eslint-disable react/jsx-no-bind */
-import React, {Component} from 'react';
-import Screen from 'transitionGroup/Screen';
-import TransitionGroup from 'transitionGroup/TransitionGroupCSS';
-// import TransitionGroup from 'transitionGroup/TransitionGroupMotion';
-import 'transitionGroup/TransitionGroup.scss';
+import React from 'react'
+import Screen from './Screen'
+import TransitionGroup from './TransitionGroupCSS'
+import './TransitionGroup.scss'
 
-export default class Page extends Component {
+export default class Page extends React.Component {
   state = {
     screen: 'A',
     transition: 'show-from-right',
-  };
+  }
 
   handleClick(screen, transition, event) {
-    event.preventDefault();
+    event.preventDefault()
 
     this.setState({
       screen,
       transition,
-    });
+    })
   }
 
   render() {
-    const {
-      screen,
-      transition,
-    } = this.state;
+    const { screen, transition } = this.state
 
     return (
       <div>
         <ul>
           <li>
-            <a onClick={this.handleClick.bind(this, 'A', 'reveal-from-right')}>
+            <a role="button" tabIndex="0" onClick={this.handleClick.bind(this, 'A', 'reveal-from-right')}>
               Screen A
             </a>
           </li>
           <li>
-            <a onClick={this.handleClick.bind(this, 'B', 'show-from-right')}>
+            <a role="button" tabIndex="0" onClick={this.handleClick.bind(this, 'B', 'show-from-right')}>
               Screen B
             </a>
           </li>
         </ul>
 
         <TransitionGroup transition={transition}>
-          {screen === 'A'
-            ? <Screen name="A" key="A" />
-            : <Screen name="B" key="B" />
-          }
+          {screen === 'A' ? <Screen name="A" key="A" /> : <Screen name="B" key="B" />}
         </TransitionGroup>
 
       </div>
-    );
+    )
   }
 }

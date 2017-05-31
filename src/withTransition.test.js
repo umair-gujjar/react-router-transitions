@@ -1,24 +1,20 @@
-import React, {PropTypes} from 'react';
-import chai, {expect} from 'chai';
-import sinon from 'sinon';
-import dirtyChai from 'dirty-chai';
-import sinonChai from 'sinon-chai';
-import {shallow} from 'enzyme';
-import withTransition from './withTransition';
-
-chai
-  .use(dirtyChai)
-  .use(sinonChai);
+import React from 'react'
+import PropTypes from 'prop-types'
+import { shallow } from 'enzyme'
+import withTransition from './withTransition'
 
 describe('withTransition', () => {
-  let props, context, transitionConfig, BaseComponent, WrappedComponent;
+  let props
+  let context
+  let transitionConfig
+  let BaseComponent
+  let WrappedComponent
 
   beforeEach(() => {
-    const route = {};
-
-    const TransitionGroup = ({children}) => <div className="transition-group">{children}</div>;
-
-    TransitionGroup.propTypes = {children: PropTypes.node};
+    jest.clearAllMocks()
+    const route = {}
+    const TransitionGroup = ({ children }) => <div className="transition-group">{children}</div>
+    TransitionGroup.propTypes = { children: PropTypes.node }
 
     props = {
       location: {
@@ -27,99 +23,68 @@ describe('withTransition', () => {
       },
       route,
       routes: [route],
-    };
+    }
 
     context = {
       transitionRouter: {
-        getLocationIndex: sinon.stub(),
+        getLocationIndex: jest.fn(),
       },
-    };
+    }
 
-    BaseComponent = () => null;
+    BaseComponent = () => null
     transitionConfig = {
       TransitionGroup,
-      onShow: sinon.stub(),
-      onDismiss: sinon.stub(),
-      defaultTransition: {transition: 'instant'},
-    };
+      onShow: jest.fn(),
+      onDismiss: jest.fn(),
+      defaultTransition: { transition: 'instant' },
+    }
 
-    WrappedComponent = withTransition(BaseComponent, transitionConfig);
-  });
+    WrappedComponent = withTransition(BaseComponent, transitionConfig)
+  })
 
   describe('first render', () => {
     it('should use default transition', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-      expect(
-        wrapper.props(),
-        'component should get parent properties',
-      ).to.have.property('location', props.location);
-
-      expect(
-        wrapper.props(),
-        'component should get parent properties',
-      ).to.have.property('route', props.route);
-
-      expect(
-        wrapper.props(),
-        'component should get parent properties',
-      ).to.have.property('routes', props.routes);
-
-      expect(
-        wrapper.children().props(),
-        'transition group should get default transition',
-      ).to.have.property('transition', 'instant');
-    });
-  });
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
+      expect(wrapper.prop('location')).toBe(props.location)
+      expect(wrapper.prop('route')).toBe(props.route)
+      expect(wrapper.prop('routes')).toBe(props.routes)
+      expect(wrapper.children().prop('transition')).toBe('instant')
+    })
+  })
 
   describe('after show', () => {
     it('should call hook if available', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-
-      transitionConfig.onShow.callsArgWith(2, {
-        transition: 'show',
-      });
-
-      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(0);
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
+      transitionConfig.onShow.mockImplementation((prevState, nextState, replaceTransition) => {
+        replaceTransition({ transition: 'show' })
+      })
 
       const nextLocation = {
         key: 'second',
         pathname: '/second',
-      };
+      }
 
       const nextProps = {
         ...props,
         location: nextLocation,
-      };
+      }
 
-      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);
+      context.transitionRouter.getLocationIndex.mockImplementation((location) => {
+        if (location === props.location) return 0
+        if (location === nextLocation) return 1
+        return null
+      })
 
-      wrapper.setProps(nextProps);
+      wrapper.setProps(nextProps)
 
-      expect(
-        transitionConfig.onShow,
-        'onShow hook should be called once',
-      ).to.be.calledOnce();
-
-      expect(
-        transitionConfig.onShow,
-        'onShow hook should be called with instance as this',
-      ).to.be.calledOn(wrapper.instance());
-
-      expect(
-        transitionConfig.onShow,
-        'onShow hook should be called with props',
-      ).to.be.calledWith(props, nextProps);
-
-      expect(
-        wrapper.children().props(),
-        'transition group should get "show" transition',
-      ).to.have.property('transition', 'show');
-    });
+      expect(transitionConfig.onShow).toHaveBeenCalledTimes(1)
+      expect(transitionConfig.onShow).toHaveBeenCalled()
+      expect(transitionConfig.onShow).toHaveBeenCalledWith(props, nextProps, expect.any(Function))
+      expect(wrapper.children().prop('transition')).toBe('show')
+    })
 
     it('should use transition state', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-
-      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(1);
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
 
       const nextLocation = {
         key: 'second',
@@ -129,129 +94,115 @@ describe('withTransition', () => {
             transition: 'show-from-state',
           },
         },
-      };
+      }
 
       const nextProps = {
         ...props,
         location: nextLocation,
-      };
+      }
 
-      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(2);
+      context.transitionRouter.getLocationIndex.mockImplementation((location) => {
+        if (location === props.location) return 1
+        if (location === nextLocation) return 2
+        return null
+      })
 
-      wrapper.setProps(nextProps);
+      wrapper.setProps(nextProps)
 
-      expect(
-        wrapper.children().props(),
-        'transition group should get "show-from-state" transition',
-      ).to.have.property('transition', 'show-from-state');
-    });
-  });
+      expect(wrapper.children().prop('transition')).toBe('show-from-state')
+    })
+  })
 
   describe('after dismiss', () => {
     it('should call hook if available', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-
-      transitionConfig.onDismiss.callsArgWith(2, {
-        transition: 'dismiss',
-      });
-
-      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(1);
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
 
       const nextLocation = {
         key: 'second',
         pathname: '/second',
-      };
+      }
 
       const nextProps = {
         ...props,
         location: nextLocation,
-      };
+      }
 
-      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(0);
+      transitionConfig.onDismiss.mockImplementation((prevState, nextState, replaceTransition) => {
+        replaceTransition({ transition: 'dismiss' })
+      })
 
-      wrapper.setProps(nextProps);
+      context.transitionRouter.getLocationIndex.mockImplementation((location) => {
+        if (location === props.location) return 2
+        if (location === nextLocation) return 1
+        return null
+      })
 
-      expect(
-        transitionConfig.onDismiss,
-        'onDismiss hook should be called once',
-      ).to.be.calledOnce();
+      wrapper.setProps(nextProps)
 
-      expect(
-        transitionConfig.onDismiss,
-        'onDismiss hook should be called with instance as this',
-      ).to.be.calledOn(wrapper.instance());
+      expect(transitionConfig.onDismiss).toHaveBeenCalledTimes(1)
+      expect(transitionConfig.onDismiss).toHaveBeenCalledWith(props, nextProps, expect.any(Function))
 
-      expect(
-        transitionConfig.onDismiss,
-        'onDismiss hook should be called with props',
-      ).to.be.calledWith(props, nextProps);
-
-      expect(
-        wrapper.children().props(),
-        'transition group should get "dismiss" transition',
-      ).to.have.property('transition', 'dismiss');
-    });
+      expect(wrapper.children().prop('transition')).toBe('dismiss')
+    })
 
     it('should use transition state', () => {
       props.location.state = {
         dismissTransition: {
           transition: 'dismiss-from-state',
         },
-      };
+      }
 
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-
-      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(2);
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
 
       const nextLocation = {
         key: 'second',
         pathname: '/second',
-      };
+      }
 
       const nextProps = {
         ...props,
         location: nextLocation,
-      };
+      }
 
-      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);
+      context.transitionRouter.getLocationIndex.mockImplementation((location) => {
+        if (location === props.location) return 2
+        if (location === nextLocation) return 1
+        return null
+      })
 
-      wrapper.setProps(nextProps);
+      wrapper.setProps(nextProps)
 
-      expect(
-        wrapper.children().props(),
-        'transition group should get "dismiss-from-state" transition',
-      ).to.have.property('transition', 'dismiss-from-state');
-    });
+      expect(wrapper.children().prop('transition')).toBe('dismiss-from-state')
+    })
 
     it('should use transition state even for multi depth level', () => {
       props.location.state = {
         dismissTransition: {
           transition: 'dismiss-from-state',
         },
-      };
+      }
 
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
-
-      context.transitionRouter.getLocationIndex.withArgs(props.location).returns(3);
+      const wrapper = shallow(<WrappedComponent {...props} />, { context })
 
       const nextLocation = {
         key: 'second',
         pathname: '/second',
-      };
+      }
 
       const nextProps = {
         ...props,
         location: nextLocation,
-      };
+      }
 
-      context.transitionRouter.getLocationIndex.withArgs(nextLocation).returns(1);
+      context.transitionRouter.getLocationIndex.mockImplementation((location) => {
+        if (location === props.location) return 3
+        if (location === nextLocation) return 1
+        return null
+      })
 
-      wrapper.setProps(nextProps);
+      wrapper.setProps(nextProps)
 
-      expect(
-        wrapper.children().props(),
-        'transition group should get "dismiss-from-state" transition',
-      ).to.have.property('transition', 'dismiss-from-state');
-    });
-  });
-});
+      expect(wrapper.children().prop('transition')).toBe('dismiss-from-state')
+    })
+  })
+})

@@ -1,16 +1,14 @@
-import React from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import Head from './Head';
-import Body from './Body';
-import Footer from './Footer';
-import {Link} from 'react-router';
+import Head from './Head'
+import Body from './Body'
+import Footer from './Footer'
 
 const Main = () => (
   <div>
-    <Head
-      name="React router transitions"
-      description="Brings transitions to react-router"
-    >
+    <Head name="React router transitions" description="Brings transitions to react-router">
       <a className="btn" href="https://github.com/doctolib/react-router-transitions">
         View on GitHub
       </a>
@@ -29,6 +27,6 @@ const Main = () => (
       />
     </Body>
   </div>
-);
+)
 
-export default Main;
+export default Main

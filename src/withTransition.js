@@ -1,41 +1,35 @@
-import React, {
-  PropTypes,
-  Children,
-  isValidElement,
-  cloneElement,
-} from 'react';
-import {getRoutePath} from './RouterUtils';
-import {SHOW, DISMISS} from './TransitionActions';
+import React, { Children, isValidElement, cloneElement } from 'react'
+import PropTypes from 'prop-types'
+import { getRoutePath } from './RouterUtils'
+import { SHOW, DISMISS } from './TransitionActions'
 
-const defaultGetComponentKey = (child, {routes}) => {
-  return getRoutePath(child.props.route, routes);
-};
+const defaultGetComponentKey = (child, { routes }) => getRoutePath(child.props.route, routes)
 
-export default (Component, transitionConfig) => (
+export default (Component, transitionConfig) =>
   class Transition extends React.Component {
     static propTypes = {
       location: PropTypes.object.isRequired,
       children: PropTypes.node,
-    };
+    }
 
     static contextTypes = {
       transitionRouter: PropTypes.object.isRequired,
-    };
+    }
 
     componentWillMount() {
       this.config = {
         ...this.context.transitionRouter.config,
         ...transitionConfig,
-      };
+      }
       this.state = {
         transition: this.config.defaultTransition,
-      };
+      }
     }
 
     componentWillReceiveProps(nextProps) {
       this.setState({
         transition: this.getTransition(this.props, nextProps),
-      });
+      })
     }
 
     /**
@@ -46,15 +40,14 @@ export default (Component, transitionConfig) => (
      * @returns {object}
      */
     getTransition(props, nextProps) {
-      const transitionType = this.getTransitionType(props.location, nextProps.location);
-
+      const transitionType = this.getTransitionType(props.location, nextProps.location)
       switch (transitionType) {
         case SHOW:
-          return this.getShowTransition(props, nextProps);
+          return this.getShowTransition(props, nextProps)
         case DISMISS:
-          return this.getDismissTransition(props, nextProps);
+          return this.getDismissTransition(props, nextProps)
         default:
-          return this.config.defaultTransition;
+          return this.config.defaultTransition
       }
     }
 
@@ -66,10 +59,9 @@ export default (Component, transitionConfig) => (
      * @param {object} nextProps
      */
     getShowTransition(props, nextProps) {
-      const transition = this.callHook('onShow', props, nextProps);
+      const transition = this.callHook('onShow', props, nextProps)
 
-      return transition
-        || this.extractStateFromLocation(nextProps.location).showTransition;
+      return transition || this.extractStateFromLocation(nextProps.location).showTransition
     }
 
     /**
@@ -80,10 +72,8 @@ export default (Component, transitionConfig) => (
      * @param {object} nextProps
      */
     getDismissTransition(props, nextProps) {
-      const transition = this.callHook('onDismiss', props, nextProps);
-
-      return transition
-        || this.extractStateFromLocation(props.location).dismissTransition;
+      const transition = this.callHook('onDismiss', props, nextProps)
+      return transition || this.extractStateFromLocation(props.location).dismissTransition
     }
 
     /**
@@ -94,17 +84,16 @@ export default (Component, transitionConfig) => (
      * @param {object} nextProps
      */
     callHook(name, props, nextProps) {
-      let replaceTransition;
+      let replaceTransition
 
       function replace(transition) {
-        replaceTransition = transition;
+        replaceTransition = transition
       }
 
       // Call hook if it's defined.
-      if (this.config[name])
-        this.config[name].call(this, props, nextProps, replace);
+      if (this.config[name]) this.config[name].call(this, props, nextProps, replace)
 
-      return replaceTransition;
+      return replaceTransition
     }
 
     /**
@@ -115,29 +104,29 @@ export default (Component, transitionConfig) => (
      * @returns {string|null}
      */
     getTransitionType(location, nextLocation) {
-      const {getLocationIndex} = this.context.transitionRouter;
-      const locationIndex = getLocationIndex(location);
-      const nextLocationIndex = getLocationIndex(nextLocation);
+      const { getLocationIndex } = this.context.transitionRouter
+      const locationIndex = getLocationIndex(location)
+      const nextLocationIndex = getLocationIndex(nextLocation)
 
       // Custom action
-      if (nextLocation.state && (
-        nextLocation.state.transitionAction === SHOW
-          || nextLocation.state.transitionAction === DISMISS
-      )) {
-        return nextLocation.state.transitionAction;
+      if (
+        nextLocation.state &&
+        (nextLocation.state.transitionAction === SHOW || nextLocation.state.transitionAction === DISMISS)
+      ) {
+        return nextLocation.state.transitionAction
       }
 
       // Push
       if (locationIndex >= 0 && nextLocationIndex === locationIndex + 1) {
-        return SHOW;
+        return SHOW
       }
 
       // Go back or explicit dismiss (first action on refresh)
       if (locationIndex >= 0 && nextLocationIndex <= locationIndex - 1) {
-        return DISMISS;
+        return DISMISS
       }
 
-      return null;
+      return null
     }
 
     /**
@@ -147,37 +136,25 @@ export default (Component, transitionConfig) => (
      * @returns {object}
      */
     extractStateFromLocation(location) {
-      const {defaultTransition} = this.config;
-      const {
-        showTransition = defaultTransition,
-        dismissTransition = defaultTransition,
-      } = location.state || {};
-      return {dismissTransition, showTransition};
+      const { defaultTransition } = this.config
+      const { showTransition = defaultTransition, dismissTransition = defaultTransition } = location.state || {}
+      return { dismissTransition, showTransition }
     }
 
     render() {
-      const {
-        children,
-        ...props
-      } = this.props;
-
-      const {
-        TransitionGroup,
-        getComponentKey = defaultGetComponentKey,
-      } = this.config;
+      const { children, ...props } = this.props
+      const { TransitionGroup, getComponentKey = defaultGetComponentKey } = this.config
 
       return (
         <Component {...props}>
           <TransitionGroup {...this.state.transition}>
-            {Children.map(children, child => (
-              isValidElement(child)
-                ? cloneElement(child, {key: getComponentKey(child, this.props)})
-                : null
-              ),
+            {Children.map(
+              children,
+              child =>
+                isValidElement(child) ? cloneElement(child, { key: getComponentKey(child, this.props) }) : null,
             )}
           </TransitionGroup>
         </Component>
-      );
+      )
     }
   }
-);

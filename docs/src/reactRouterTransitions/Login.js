@@ -1,19 +1,20 @@
 /* eslint-disable react/jsx-no-bind */
-import React, {Component, PropTypes} from 'react';
-import Screen from 'transitionGroup/Screen';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Screen from '../transitionGroup/Screen'
 
-class Home extends Component {
+class Home extends React.Component {
   static contextTypes = {
     transitionRouter: PropTypes.object,
-  };
+  }
 
   handleClick(route, event) {
-    event.preventDefault();
+    event.preventDefault()
 
     if (route === 'back') {
-      this.context.transitionRouter.dismiss('/react-router-transitions');
+      this.context.transitionRouter.dismiss('/react-router-transitions')
     } else {
-      this.context.transitionRouter.show(route);
+      this.context.transitionRouter.show(route)
     }
   }
 
@@ -23,11 +24,17 @@ class Home extends Component {
         Login
         <br />
         <br />
-        <a onClick={this.handleClick.bind(this, 'back')}>Back</a>
-        <a onClick={this.handleClick.bind(this, '/react-router-transitions/forgotten-password')}>Forgotten Password</a>
+        <a role="button" tabIndex="0" onClick={this.handleClick.bind(this, 'back')}>Back</a>
+        <a
+          role="button"
+          tabIndex="0"
+          onClick={this.handleClick.bind(this, '/react-router-transitions/forgotten-password')}
+        >
+          Forgotten Password
+        </a>
       </Screen>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

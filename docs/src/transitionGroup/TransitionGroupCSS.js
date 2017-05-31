@@ -1,7 +1,9 @@
-import React, {PropTypes, Component} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react'
+import PropTypes from 'prop-types'
+import { CSSTransitionGroup } from 'react-transition-group'
 
-export default class TransitionGroup extends Component {
+export default class TransitionGroup extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     transition: PropTypes.oneOf([
@@ -11,20 +13,17 @@ export default class TransitionGroup extends Component {
       'show-from-right',
       'reveal-from-right',
     ]).isRequired,
-  };
+  }
 
   static defaultProps = {
     transition: 'instant',
-  };
+  }
 
   render() {
-    const {
-      transition,
-      children,
-    } = this.props;
+    const { transition, children } = this.props
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         component="div"
         className="transition-group-container"
         transitionName={`transition-group-${transition}`}
@@ -32,7 +31,7 @@ export default class TransitionGroup extends Component {
         transitionLeaveTimeout={500}
       >
         {children}
-      </ReactCSSTransitionGroup>
-    );
+      </CSSTransitionGroup>
+    )
   }
 }

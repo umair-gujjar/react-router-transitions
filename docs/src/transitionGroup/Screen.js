@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const styles = {
   root: {
@@ -11,31 +12,23 @@ const styles = {
   B: {
     backgroundColor: '#B3DC4A',
   },
-};
+}
 
-export default class Screen extends Component {
+export default class Screen extends React.Component {
   static propTypes = {
     style: PropTypes.object,
-    name: PropTypes.oneOf([
-      'A',
-      'B',
-    ]),
+    name: PropTypes.oneOf(['A', 'B']),
     children: PropTypes.node,
-  };
+  }
 
   render() {
-    const {
-      style: styleProps,
-      name,
-      children,
-    } = this.props;
-
-    const style = Object.assign({}, styleProps, styles.root, styles[name]);
+    const { style: styleProps, name, children } = this.props
+    const style = Object.assign({}, styleProps, styles.root, styles[name])
 
     return (
       <div className="transition-group" style={style}>
-        {children ? children : `Screen ${name}`}
+        {children || `Screen ${name}`}
       </div>
-    );
+    )
   }
 }

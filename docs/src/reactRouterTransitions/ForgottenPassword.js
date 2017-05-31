@@ -1,18 +1,19 @@
 /* eslint-disable react/jsx-no-bind */
-import React, {Component, PropTypes} from 'react';
-import Screen from 'transitionGroup/Screen';
-import {withRouter} from 'react-router';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
+import Screen from '../transitionGroup/Screen'
 
-class Home extends Component {
+class Home extends React.Component {
   static propTypes = {
     router: PropTypes.object.isRequired,
-  };
+  }
 
   handleClick(route, event) {
-    event.preventDefault();
+    event.preventDefault()
 
     if (route === 'back') {
-      this.props.router.goBack();
+      this.props.router.goBack()
     }
   }
 
@@ -22,10 +23,10 @@ class Home extends Component {
         Forgotten password
         <br />
         <br />
-        <a onClick={this.handleClick.bind(this, 'back')}>Back</a>
+        <a onClick={this.handleClick.bind(this, 'back')} role="button" tabIndex="0">Back</a>
       </Screen>
-    );
+    )
   }
 }
 
-export default withRouter(Home);
+export default withRouter(Home)

@@ -1,57 +1,62 @@
-import React from 'react';
-import {render} from 'react-dom';
-import {hashHistory, Router} from 'react-router';
-import {applyRouterMiddleware} from 'react-router';
-import {useTransitions} from 'react-router-transitions';
-import TransitionGroup from 'transitionGroup/TransitionGroupCSS';
-import routes from 'routes';
-import 'transitionGroup/TransitionGroup.scss';
-import 'normalize.scss';
-import 'stylesheet.scss';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react'
+import { render } from 'react-dom'
+import { HashRouter } from 'react-router-dom'
+import { withRouter } from 'react-router'
+import { TransitionContext } from '../../src'
+import TransitionGroup from './transitionGroup/TransitionGroupCSS'
+import routes from './routes'
+import './transitionGroup/TransitionGroup.scss'
+import './normalize.scss'
+import './stylesheet.scss'
 
 function onShow(prevState, nextState, replace) {
   if (nextState.location.state && nextState.location.state.showTransition) {
-    return;
+    return
   }
 
-  let transition;
-  const nextStateTransition = nextState.children.props.route.transition;
+  let transition
+  const nextStateTransition = nextState.children.props.route.transition
 
   if (nextStateTransition) {
-    transition = `show-${nextStateTransition}`;
+    transition = `show-${nextStateTransition}`
   }
 
   if (transition) {
-    replace({transition});
+    replace({ transition })
   }
 }
 
 function onDismiss(prevState, nextState, replace) {
   if (prevState.location.state && prevState.location.state.dismissTransition) {
-    return;
+    return
   }
 
-  let transition;
-  const prevStateTransition = prevState.children.props.route.transition;
+  let transition
+  const prevStateTransition = prevState.children.props.route.transition
 
   if (prevStateTransition) {
-    transition = `reveal-${prevStateTransition}`;
+    transition = `reveal-${prevStateTransition}`
   }
 
   if (transition) {
-    replace({transition});
+    replace({ transition })
   }
 }
 
+const TransitionContextWithRouter = withRouter(TransitionContext)
+
 render(
-  <Router
-    history={hashHistory}
-    render={applyRouterMiddleware(useTransitions({
-      TransitionGroup,
-      onShow,
-      onDismiss,
-    }))}
-  >
-    {routes}
-  </Router>
-, document.getElementById('main'));
+  <HashRouter>
+    <TransitionContextWithRouter
+      transitionConfig={{
+        TransitionGroup,
+        onShow,
+        onDismiss,
+      }}
+    >
+      {routes}
+    </TransitionContextWithRouter>
+  </HashRouter>,
+  document.getElementById('main'),
+)

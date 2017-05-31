@@ -1,8 +1,9 @@
 /* eslint react/no-multi-comp:  0 */
-import React, {PropTypes} from 'react';
-import {createLocation, mergeLocations} from './LocationUtils';
-import {PUSH, REPLACE} from './HistoryActions';
-import {DISMISS} from './TransitionActions';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { createLocation, mergeLocations } from './LocationUtils'
+import { PUSH, REPLACE } from './HistoryActions'
+import { DISMISS } from './TransitionActions'
 
 /**
  * TransitionContext used to share global methods accross
@@ -19,13 +20,13 @@ export default class TransitionContext extends React.Component {
       getComponentKey: PropTypes.func,
     }).isRequired,
     location: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
-  };
+  }
 
   static childContextTypes = {
     transitionRouter: PropTypes.object.isRequired,
-  };
+  }
 
   getChildContext() {
     return {
@@ -36,26 +37,23 @@ export default class TransitionContext extends React.Component {
         swap: this.swap.bind(this),
         getLocationIndex: this.getLocationIndex.bind(this),
       },
-    };
+    }
   }
 
   componentWillMount() {
     // Keep an history of all keys to be able to determine if we go forward
     // or backward in the history
-    this.locationKeys = [this.props.location.key];
+    this.locationKeys = [this.props.location.key]
   }
 
   componentWillReceiveProps(nextProps) {
-    const {location: nextLocation} = nextProps;
-    const locationIndex = this.getLocationIndex();
+    const { location: nextLocation } = nextProps
+    const locationIndex = this.getLocationIndex()
 
     if (nextLocation.action === PUSH) {
-      this.locationKeys = [
-        ...this.locationKeys.slice(0, locationIndex + 1),
-        nextLocation.key,
-      ];
+      this.locationKeys = [...this.locationKeys.slice(0, locationIndex + 1), nextLocation.key]
     } else if (nextLocation.action === REPLACE) {
-      this.locationKeys[locationIndex] = nextLocation.key;
+      this.locationKeys[locationIndex] = nextLocation.key
     }
   }
 
@@ -68,24 +66,22 @@ export default class TransitionContext extends React.Component {
    * @param {object} options
    */
   dismiss(location, options = {}) {
-    const {
-      depth = 1,
-    } = options;
+    const { depth = 1 } = options
 
-    const goBackDepth = Math.min(this.getLocationIndex(), depth);
-    const goBackUnreachable = depth - this.getLocationIndex();
+    const goBackDepth = Math.min(this.getLocationIndex(), depth)
+    const goBackUnreachable = depth - this.getLocationIndex()
 
     if (goBackDepth > 0) {
-      this.props.router.go(-goBackDepth);
+      this.props.history.go(-goBackDepth)
     }
 
     // We run the swap asynchronously as we need history to update his internal state.
     setTimeout(() => {
       if (goBackUnreachable > 0) {
-        location = createLocation(location);
-        this.swap(location, DISMISS);
+        location = createLocation(location)
+        this.swap(location, DISMISS)
       }
-    }, 0);
+    }, 0)
   }
 
   /**
@@ -95,7 +91,7 @@ export default class TransitionContext extends React.Component {
    * @param {object} location
    */
   show(location) {
-    this.props.router.push(location);
+    this.props.history.push(location)
   }
 
   /**
@@ -106,19 +102,19 @@ export default class TransitionContext extends React.Component {
    * @param {string} transitionAction
    */
   swap(location, transitionAction) {
-    location = createLocation(location);
-    location = mergeLocations(this.props.location, location);
+    location = createLocation(location)
+    location = mergeLocations(this.props.location, location)
 
     if (transitionAction) {
       location.state = {
         ...location.state,
         transitionAction,
-      };
+      }
     }
 
-    delete location.key;
+    delete location.key
 
-    this.props.router.replace(location);
+    this.props.history.replace(location)
   }
 
   /**
@@ -128,11 +124,10 @@ export default class TransitionContext extends React.Component {
    * @param {object} [location=this.props.location]
    */
   getLocationIndex(location = this.props.location) {
-    return this.locationKeys.indexOf(location.key);
+    return this.locationKeys.indexOf(location.key)
   }
 
   render() {
-    const {children} = this.props;
-    return children;
+    return this.props.children
   }
 }

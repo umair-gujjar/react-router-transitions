@@ -1,17 +1,13 @@
-import React from 'react';
-import TransitionContext from './TransitionContext';
-import warning from 'warning';
+import React from 'react'
+import TransitionContext from './TransitionContext'
 
-const renderTransitionContext = contextConfig => props => {
-  warning(false, 'Using renderTransitionContext has been deprecated, use useTransitions instead.');
-
-  const {RouterContext, ...transitionConfig} = contextConfig;
+const renderTransitionContext = contextConfig => (props) => {
+  const { RouterContext, ...transitionConfig } = contextConfig
   return (
-    <TransitionContext {...{transitionConfig, ...props}}>
+    <TransitionContext {...{ transitionConfig, ...props }}>
       <RouterContext {...props} />
     </TransitionContext>
-  );
-};
+  )
+}
 
-
-export default renderTransitionContext;
+export default renderTransitionContext

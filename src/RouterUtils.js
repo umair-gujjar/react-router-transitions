@@ -4,15 +4,12 @@
  * @param {object[]} routes
  * @returns {object}
  */
-export const getCompleteRoutesPath = routes => {
-  return routes.reduce((complete, {path = ''}) => {
-    return path.startsWith('/')
-      ? path
-      : complete.endsWith('/')
-        ? `${complete}${path}`
-        : `${complete}/${path}`;
-  }, '');
-};
+export const getCompleteRoutesPath = routes =>
+  routes.reduce(
+    (complete, { path = '' }) =>
+      path.startsWith('/') ? path : complete.endsWith('/') ? `${complete}${path}` : `${complete}/${path}`,
+    '',
+  )
 
 /**
  * Get route path.
@@ -20,7 +17,7 @@ export const getCompleteRoutesPath = routes => {
  * @param {object} options
  */
 export const getRoutePath = (route, routes) => {
-  const currentRouteIndex = routes.indexOf(route);
-  const currentRoutes = routes.slice(0, currentRouteIndex + 1);
-  return getCompleteRoutesPath(currentRoutes);
-};
+  const currentRouteIndex = routes.indexOf(route)
+  const currentRoutes = routes.slice(0, currentRouteIndex + 1)
+  return getCompleteRoutesPath(currentRoutes)
+}

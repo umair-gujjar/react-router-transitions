@@ -6,9 +6,6 @@
 [![npm downloads](https://img.shields.io/npm/dm/react-router-transitions.svg?style=flat-square)](https://www.npmjs.com/package/react-router-transitions)
 [![Build Status](https://travis-ci.org/doctolib/react-router-transitions.svg?branch=master)](https://travis-ci.org/doctolib/react-router-transitions)
 
-[![Dependencies](https://img.shields.io/david/doctolib/react-router-transitions.svg?style=flat-square)](https://david-dm.org/doctolib/react-router-transitions)
-[![DevDependencies](https://img.shields.io/david/dev/doctolib/react-router-transitions.svg?style=flat-square)](https://david-dm.org/doctolib/react-router-transitions#info=devDependencies&view=list)
-
 ## Installation
 
 ```sh

@@ -16,7 +16,7 @@ function onShow(prevState, nextState, replace) {
   }
 
   let transition
-  const nextStateTransition = nextState.children.props.route.transition
+  const nextStateTransition = nextState.transition
 
   if (nextStateTransition) {
     transition = `show-${nextStateTransition}`
@@ -33,7 +33,7 @@ function onDismiss(prevState, nextState, replace) {
   }
 
   let transition
-  const prevStateTransition = prevState.children.props.route.transition
+  const prevStateTransition = prevState.transition
 
   if (prevStateTransition) {
     transition = `reveal-${prevStateTransition}`

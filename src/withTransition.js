@@ -146,15 +146,11 @@ export default (Component, transitionConfig) =>
       const { TransitionGroup, getComponentKey = defaultGetComponentKey } = this.config
 
       return (
-        <Component {...props}>
-          <TransitionGroup {...this.state.transition}>
-            {Children.map(
-              children,
-              child =>
-                isValidElement(child) ? cloneElement(child, { key: getComponentKey(child, this.props) }) : null,
-            )}
-          </TransitionGroup>
-        </Component>
+        <TransitionGroup {...this.state.transition}>
+          <Switch key={this.props.location.key}>
+            {children}
+          </Switch>
+        </TransitionGroup>
       )
     }
   }

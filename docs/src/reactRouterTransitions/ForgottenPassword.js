@@ -4,16 +4,16 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Screen from '../transitionGroup/Screen'
 
-class Home extends React.Component {
+class ForgottenPassword extends React.Component {
   static propTypes = {
-    router: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   handleClick(route, event) {
     event.preventDefault()
 
     if (route === 'back') {
-      this.props.router.goBack()
+      this.props.history.goBack()
     }
   }
 
@@ -29,4 +29,4 @@ class Home extends React.Component {
   }
 }
 
-export default withRouter(Home)
+export default withRouter(ForgottenPassword)

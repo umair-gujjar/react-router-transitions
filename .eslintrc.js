@@ -7,5 +7,6 @@ module.exports = {
   rules: {
     'react/sort-comp': 'off',
     'react/no-unescaped-entities': 'off',
+    'react/jsx-wrap-multilines': 'off',
   },
 }

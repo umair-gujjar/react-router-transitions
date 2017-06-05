@@ -1,8 +1,9 @@
 import * as HistoryActions from './HistoryActions'
 import * as TransitionActions from './TransitionActions'
 import * as LocationUtils from './LocationUtils'
-import * as RouterUtils from './RouterUtils'
+import * as PrefixHooks from './PrefixHooks'
 
-export { default as withTransition } from './withTransition'
 export { default as TransitionContext } from './TransitionContext'
-export { HistoryActions, TransitionActions, LocationUtils, RouterUtils }
+export { default as TransitionSwitch } from './TransitionSwitch'
+export { default as withTransitionRouter } from './withTransitionRouter'
+export { HistoryActions, TransitionActions, LocationUtils, PrefixHooks }

@@ -52,10 +52,7 @@ describe('TransitionContext', () => {
 
     describe('with an history of locations', () => {
       it('should return location position in history', () => {
-        const { wrapper, context: { transitionRouter: { getLocationIndex } } } = getChildContext(
-          TransitionContext,
-          props,
-        )
+        const { wrapper, context: { transitionRouter: { getLocationIndex } } } = getChildContext(TransitionContext, props)
 
         const secondLocation = {
           key: 'second-location',

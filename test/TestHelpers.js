@@ -1,18 +1,18 @@
-import React from 'react';
-import {mount} from 'enzyme';
+import React from 'react'
+import { mount } from 'enzyme'
 
 export const getChildContext = (Component, props) => {
-  let context;
+  let context
 
   class ChildContextGetter extends React.Component {
-    static contextTypes = Component.childContextTypes;
+    static contextTypes = Component.childContextTypes
 
     componentWillMount() {
-      context = this.context;
+      context = this.context
     }
 
     render() {
-      return null;
+      return null
     }
   }
 
@@ -20,7 +20,7 @@ export const getChildContext = (Component, props) => {
     <Component {...props}>
       <ChildContextGetter />
     </Component>,
-  );
+  )
 
-  return {context, wrapper};
-};
+  return { context, wrapper }
+}

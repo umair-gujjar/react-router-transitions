@@ -4,15 +4,16 @@
  * @param {[]object} ...locations
  * @returns {object}
  */
-export const mergeLocations = (...locations) => locations.reduce((res, loc) => {
-  const newRes = { ...res, ...loc }
+export const mergeLocations = (...locations) =>
+  locations.reduce((res, loc) => {
+    const newRes = { ...res, ...loc }
 
-  if (loc.state) {
-    newRes.state = { ...res.state, ...loc.state }
-  }
+    if (loc.state) {
+      newRes.state = { ...res.state, ...loc.state }
+    }
 
-  return newRes
-}, {})
+    return newRes
+  }, {})
 
 /**
  * Create a location from a string or an object.

@@ -1,7 +1,9 @@
 import React from 'react'
-import { Switch, withRouter } from 'react-router'
+import { matchPath, withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { SHOW, DISMISS } from './TransitionActions'
+
+const defaultGetComponentKey = child => child.props.path
 
 class TransitionSwitch extends React.Component {
   static propTypes = {
@@ -11,6 +13,9 @@ class TransitionSwitch extends React.Component {
 
   static contextTypes = {
     transitionRouter: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      route: PropTypes.object.isRequired,
+    }).isRequired,
   }
 
   componentWillMount() {
@@ -21,9 +26,7 @@ class TransitionSwitch extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      transition: this.getTransition(this.props, nextProps),
-    })
+    this.setState({ transition: this.getTransition(this.props, nextProps) })
   }
 
   /**
@@ -54,7 +57,6 @@ class TransitionSwitch extends React.Component {
    */
   getShowTransition(props, nextProps) {
     const transition = this.callHook('onShow', props, nextProps)
-
     return transition || this.extractStateFromLocation(nextProps.location).showTransition
   }
 
@@ -136,15 +138,31 @@ class TransitionSwitch extends React.Component {
   }
 
   render() {
-    const { TransitionGroup } = this.config
+    const { route } = this.context.router
+    const { children } = this.props
+    const location = this.props.location || route.location
 
-    console.log(this.props.location)
+    let match
+    let child
+    React.Children.forEach(children, (element) => {
+      if (!React.isValidElement(element)) return
+
+      const { path: pathProp, exact, strict, from } = element.props
+      const path = pathProp || from
+
+      if (match == null) {
+        child = element
+        match = path ? matchPath(location.pathname, { path, exact, strict }) : route.match
+      }
+    })
+
+    const { TransitionGroup, getComponentKey = defaultGetComponentKey } = this.config
 
     return (
       <TransitionGroup {...this.state.transition}>
-        <Switch key={this.props.location.key}>
-          {this.props.children}
-        </Switch>
+        {match
+          ? React.cloneElement(child, { location, computedMatch: match, key: getComponentKey(child, this.props) })
+          : null}
       </TransitionGroup>
     )
   }

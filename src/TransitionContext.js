@@ -1,6 +1,8 @@
 /* eslint react/no-multi-comp:  0 */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
+import * as PrefixHooks from './PrefixHooks'
 import { createLocation, mergeLocations } from './LocationUtils'
 import { PUSH, REPLACE } from './HistoryActions'
 import { DISMISS } from './TransitionActions'
@@ -10,7 +12,7 @@ import { DISMISS } from './TransitionActions'
  * all the application.
  * This context is designed to be rendered just before the RouterContext.
  */
-export default class TransitionContext extends React.Component {
+class TransitionContext extends React.Component {
   static propTypes = {
     transitionConfig: PropTypes.shape({
       defaultTransition: PropTypes.object,
@@ -31,7 +33,10 @@ export default class TransitionContext extends React.Component {
   getChildContext() {
     return {
       transitionRouter: {
-        config: this.props.transitionConfig,
+        config: {
+          ...PrefixHooks,
+          ...this.props.transitionConfig,
+        },
         dismiss: this.dismiss.bind(this),
         show: this.show.bind(this),
         swap: this.swap.bind(this),
@@ -47,12 +52,12 @@ export default class TransitionContext extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location: nextLocation } = nextProps
+    const { location: nextLocation, history: nextHistory } = nextProps
     const locationIndex = this.getLocationIndex()
 
-    if (nextLocation.action === PUSH) {
+    if (nextHistory.action === PUSH) {
       this.locationKeys = [...this.locationKeys.slice(0, locationIndex + 1), nextLocation.key]
-    } else if (nextLocation.action === REPLACE) {
+    } else if (nextHistory.action === REPLACE) {
       this.locationKeys[locationIndex] = nextLocation.key
     }
   }
@@ -131,3 +136,5 @@ export default class TransitionContext extends React.Component {
     return this.props.children
   }
 }
+
+export default withRouter(TransitionContext)

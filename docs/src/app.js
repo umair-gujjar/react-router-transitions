@@ -1,62 +1,51 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
-import { render } from 'react-dom'
-import { HashRouter } from 'react-router-dom'
-import { withRouter } from 'react-router'
-import { TransitionContext } from '../../src'
-import TransitionGroup from './transitionGroup/TransitionGroupCSS'
-import routes from './routes'
-import './transitionGroup/TransitionGroup.scss'
-import './normalize.scss'
-import './stylesheet.scss'
+import styled, { injectGlobal } from 'styled-components'
+import Demo from './Demo'
 
-function onShow(prevState, nextState, replace) {
-  if (nextState.location.state && nextState.location.state.showTransition) {
-    return
+/* eslint-disable no-unused-expressions */
+injectGlobal`
+  * {
+    box-sizing: border-box;
   }
 
-  let transition
-  const nextStateTransition = nextState.transition
-
-  if (nextStateTransition) {
-    transition = `show-${nextStateTransition}`
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+`
+/* eslint-enable no-unused-expressions */
 
-  if (transition) {
-    replace({ transition })
-  }
-}
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
-function onDismiss(prevState, nextState, replace) {
-  if (prevState.location.state && prevState.location.state.dismissTransition) {
-    return
-  }
+const Header = styled.header`
+  margin: 0;
+  color: #fff;
+  text-align: center;
+  background-color: #159957;
+  background-image: linear-gradient(120deg, #008DE0, #00B1EC);
+  align-self: stretch;
+  margin-bottom: 20px;
+`
 
-  let transition
-  const prevStateTransition = prevState.transition
+const H1 = styled.h1`
+  font-size: 20px;
+  margin: 0;
+`
 
-  if (prevStateTransition) {
-    transition = `reveal-${prevStateTransition}`
-  }
+const Main = () =>
+  <Container>
+    <Header>
+      <H1>
+        React router transitions
+      </H1>
+    </Header>
+    <Demo />
+  </Container>
 
-  if (transition) {
-    replace({ transition })
-  }
-}
-
-const TransitionContextWithRouter = withRouter(TransitionContext)
-
-render(
-  <HashRouter>
-    <TransitionContextWithRouter
-      transitionConfig={{
-        TransitionGroup,
-        onShow,
-        onDismiss,
-      }}
-    >
-      {routes}
-    </TransitionContextWithRouter>
-  </HashRouter>,
-  document.getElementById('main'),
-)
+export default Main

@@ -4,11 +4,11 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export default {
   context: path.resolve(__dirname, 'docs/src'),
-  entry: ['./app.js'],
+  entry: ['./main.js'],
   output: {
     path: path.join(__dirname, 'docs/dist'),
-    publicPath: '',
-    filename: 'app.js',
+    publicPath: '/',
+    filename: 'main.js',
   },
   module: {
     rules: [
@@ -16,10 +16,6 @@ export default {
         test: /\.js$/,
         exclude: /node_modules/,
         use: 'babel-loader',
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
     ],
   },
@@ -37,8 +33,14 @@ export default {
       },
     }),
   ],
+  resolve: {
+    alias: {
+      'react-router-transitions': path.resolve(__dirname, 'src'),
+    },
+  },
   devServer: {
     contentBase: path.join(__dirname, 'docs/dist'),
+    historyApiFallback: true,
   },
   devtool: 'eval-source-map',
 }

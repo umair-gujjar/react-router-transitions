@@ -48,7 +48,7 @@ class TransitionContext extends React.Component {
   componentWillMount() {
     // Keep an history of all keys to be able to determine if we go forward
     // or backward in the history
-    this.locationKeys = [this.props.location.key]
+    this.locationHistory = [this.props.location]
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,9 +56,9 @@ class TransitionContext extends React.Component {
     const locationIndex = this.getLocationIndex()
 
     if (nextHistory.action === PUSH) {
-      this.locationKeys = [...this.locationKeys.slice(0, locationIndex + 1), nextLocation.key]
+      this.locationHistory = [...this.locationHistory.slice(0, locationIndex + 1), nextLocation]
     } else if (nextHistory.action === REPLACE) {
-      this.locationKeys[locationIndex] = nextLocation.key
+      this.locationHistory[locationIndex] = nextLocation
     }
   }
 
@@ -68,25 +68,15 @@ class TransitionContext extends React.Component {
    * any history.
    *
    * @param {object} location
-   * @param {object} options
    */
-  dismiss(location, options = {}) {
-    const { depth = 1 } = options
-
-    const goBackDepth = Math.min(this.getLocationIndex(), depth)
-    const goBackUnreachable = depth - this.getLocationIndex()
-
-    if (goBackDepth > 0) {
+  dismiss(location) {
+    location = createLocation(location)
+    const goBackDepth = this.locationHistory.reverse().findIndex(({ pathname }) => pathname === location.pathname)
+    if (goBackDepth >= 0) {
       this.props.history.go(-goBackDepth)
+    } else {
+      setTimeout(() => this.swap(location, DISMISS), 0)
     }
-
-    // We run the swap asynchronously as we need history to update his internal state.
-    setTimeout(() => {
-      if (goBackUnreachable > 0) {
-        location = createLocation(location)
-        this.swap(location, DISMISS)
-      }
-    }, 0)
   }
 
   /**
@@ -129,7 +119,7 @@ class TransitionContext extends React.Component {
    * @param {object} [location=this.props.location]
    */
   getLocationIndex(location = this.props.location) {
-    return this.locationKeys.indexOf(location.key)
+    return this.locationHistory.findIndex(({ key }) => key === location.key)
   }
 
   render() {

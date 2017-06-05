@@ -72,7 +72,7 @@ class TransitionContext extends React.Component {
   dismiss(location) {
     location = createLocation(location)
     const goBackDepth = this.locationHistory.reverse().findIndex(({ pathname }) => pathname === location.pathname)
-    if (goBackDepth >= 0) {
+    if (goBackDepth > 0) {
       this.props.history.go(-goBackDepth)
     } else {
       setTimeout(() => this.swap(location, DISMISS), 0)

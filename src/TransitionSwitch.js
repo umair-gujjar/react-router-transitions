@@ -112,6 +112,11 @@ class TransitionSwitch extends React.Component {
       return nextLocation.state.transitionAction
     }
 
+    // Location not in history
+    if (nextLocationIndex === -1 || locationIndex === -1) {
+      return SHOW
+    }
+
     // Push
     if (locationIndex >= 0 && nextLocationIndex === locationIndex + 1) {
       return SHOW

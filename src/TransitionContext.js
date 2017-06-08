@@ -68,6 +68,7 @@ class TransitionContext extends React.Component {
    * any history.
    *
    * @param {object} location
+   * @param {object} options
    */
   dismiss(location) {
     location = createLocation(location)

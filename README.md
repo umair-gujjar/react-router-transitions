@@ -22,38 +22,41 @@ It is a requirement especially on mobile to provide a great user experience.
 ### Set up routes
 
 The requirement to use this module is to set up transition context at the root level
-of your application using `useTransitions`.
+of your application using `<TransitionContext />`.
 
-Then you can enable transitions at several levels of your application using `withTransition`.
+Then you can enable transitions at several levels of your application using `<TransitionSwitch />`.
 In a simple application, you should only wrap your root component.
 
 ```js
-import React from 'react';
-import {Router, Route, browserHistory, applyRouterMiddleware} from 'react-router';
-import {useTransitions, withTransition} from 'react-router-transitions';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import App from './App';
-import Home from './Home';
-import AboutUs from './AboutUs';
+import React from 'react'
+import { Route, BrowserHistory } from 'react-router-dom'
+import { TransitionSwitch, TransitionContext } from 'react-router-transitions'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
-export default () => (
-  <Router
-    history={browserHistory}
-    render={applyRouterMiddleware(useTransitions({
-      TransitionGroup: ReactCSSTransitionGroup,
-      defaultTransition: {
-        transitionName: 'fade',
-        transitionEnterTimeout: 500,
-        transitionLeaveTimeout: 300
-      }
-    }))}
-  >
-    <Route path="/" component={withTransition(App)}>
-      <Route path="home" component={Home} />
-      <Route path="about-us" component={AboutUs} />
-    </Route>
-  </Router>
-);
+const transitionConfig = {
+  TransitionGroup: ReactCSSTransitionGroup,
+  defaultTransition: {
+    transitionName: 'fade',
+    transitionEnterTimeout: 500,
+    transitionLeaveTimeout: 300,
+  },
+}
+
+const Home = () => <div>Home</div>
+const AboutUs = () => <div>AboutUs</div>
+
+const App = ({ match }) =>
+  <TransitionSwitch>
+    <Route path={`${match.url}/home`} component={Home} />
+    <Route path={`${match.url}/about-us`} component={AboutUs} />
+  </TransitionSwitch>
+
+export default () =>
+  <BrowserHistory>
+    <TransitionContext transitionConfig={transitionConfig}>
+      <Route path="/" component={App} />
+    </TransitionContext>
+  </BrowserHistory>
 ```
 
 ### Navigate into your application

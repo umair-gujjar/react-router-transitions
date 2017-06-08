@@ -291,8 +291,8 @@ export default class TransitionGroup extends React.Component {
       <StyledCssTransitionGroup
         component="div"
         transitionName={`transition-group-${this.props.transition}`}
-        transitionEnterTimeout={duration}
-        transitionLeaveTimeout={duration}
+        transitionEnterTimeout={duration - 10}
+        transitionLeaveTimeout={duration - 10}
       >
         {this.props.children}
       </StyledCssTransitionGroup>

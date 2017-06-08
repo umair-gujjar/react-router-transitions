@@ -32,7 +32,7 @@ const Search = ({ match, transitionRouter }) =>
     <SearchContent>
       <TransitionSwitch>
         <Route exact path={`${match.url}`} component={Red} transition="from-right" />
-        <Route path={`${match.url}/green`} component={Green} transition="from-right" />
+        <Route path={`${match.url}/green`} component={Green} transition="from-bottom" />
       </TransitionSwitch>
     </SearchContent>
     <Button onClick={() => transitionRouter.show('/search')}>Red</Button>

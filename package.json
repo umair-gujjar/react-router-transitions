@@ -4,11 +4,12 @@
   "description": "Brings transitions to react-router",
   "main": "lib/index.js",
   "scripts": {
+    "build": "rm -rf lib/ && cp -R src/ lib/ && NODE_ENV=production babel -d lib src && rm -rf lib/*.test.js",
     "build:docs": "NODE_ENV=production webpack",
     "dev:docs": "webpack-dev-server",
     "format": "prettier-eslint --write --print-width 120 --single-quote true --trailing-comma all --no-semi false src/**/*.js docs/**/*.js",
     "lint": "eslint .",
-    "prepublish": "rm -rf lib/ && cp -R src/ lib/ && babel -d lib src",
+    "prepublish": "npm run build",
     "test": "yarn lint && yarn test:unit",
     "test:unit": "jest"
   },

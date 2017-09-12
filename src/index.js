@@ -3,6 +3,8 @@ import * as TransitionActions from './TransitionActions';
 import * as LocationUtils from './LocationUtils';
 import * as RouterUtils from './RouterUtils';
 
+export * from './activeState';
+
 export {default as renderTransitionContext} from './renderTransitionContext';
 export {default as withTransition} from './withTransition';
 export {default as TransitionContext} from './TransitionContext';

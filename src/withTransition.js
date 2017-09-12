@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import {getRoutePath} from './RouterUtils';
 import {SHOW, DISMISS} from './TransitionActions';
+import {areTransitionsEnabled} from './activeState';
 
 const defaultGetComponentKey = (child, {routes}) => {
   return getRoutePath(child.props.route, routes);
@@ -156,6 +157,10 @@ export default (Component, transitionConfig) => (
     }
 
     render() {
+      if (!areTransitionsEnabled()) {
+        return (<Component {...this.props} />);
+      }
+
       const {
         children,
         ...props

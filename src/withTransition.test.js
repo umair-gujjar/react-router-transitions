@@ -5,6 +5,7 @@ import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
 import {shallow} from 'enzyme';
 import withTransition from './withTransition';
+import {disableTransitions, enableTransitions} from './activeState';
 
 chai
   .use(dirtyChai)
@@ -68,6 +69,20 @@ describe('withTransition', () => {
         wrapper.children().props(),
         'transition group should get default transition',
       ).to.have.property('transition', 'instant');
+    });
+
+    describe('with state disabled', () => {
+      beforeEach(() => {
+        disableTransitions();
+      });
+      afterEach(() => {
+        enableTransitions();
+      });
+      it('should not render the transition group', () => {
+        const WrappedComponentWithChildren = withTransition(({children}) => <div>{children}</div>);
+        const wrapper = shallow(<WrappedComponentWithChildren {...props} />, {context});
+        expect(wrapper.children().length).to.eql(0);
+      });
     });
   });
 

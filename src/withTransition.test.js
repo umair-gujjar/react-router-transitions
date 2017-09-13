@@ -78,10 +78,9 @@ describe('withTransition', () => {
       afterEach(() => {
         enableTransitions();
       });
-      it('should not render the transition group', () => {
-        const WrappedComponentWithChildren = withTransition(({children}) => <div>{children}</div>);
-        const wrapper = shallow(<WrappedComponentWithChildren {...props} />, {context});
-        expect(wrapper.children().length).to.eql(0);
+      it('should render the transition group with instant transition', () => {
+        const wrapper = shallow(<WrappedComponent {...props} />, {context});
+        expect(wrapper.children().props().transition).to.eql('instant');
       });
     });
   });

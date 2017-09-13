@@ -47,8 +47,11 @@ export default (Component, transitionConfig) => (
      * @returns {object}
      */
     getTransition(props, nextProps) {
-      const transitionType = this.getTransitionType(props.location, nextProps.location);
+      if (!areTransitionsEnabled()) {
+        return 'instant';
+      }
 
+      const transitionType = this.getTransitionType(props.location, nextProps.location);
       switch (transitionType) {
         case SHOW:
           return this.getShowTransition(props, nextProps);
@@ -157,10 +160,6 @@ export default (Component, transitionConfig) => (
     }
 
     render() {
-      if (!areTransitionsEnabled()) {
-        return (<Component {...this.props} />);
-      }
-
       const {
         children,
         ...props

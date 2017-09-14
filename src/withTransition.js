@@ -48,7 +48,7 @@ export default (Component, transitionConfig) => (
      */
     getTransition(props, nextProps) {
       if (!areTransitionsEnabled()) {
-        return 'instant';
+        return {transition: 'instant'};
       }
 
       const transitionType = this.getTransitionType(props.location, nextProps.location);

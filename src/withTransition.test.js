@@ -41,7 +41,7 @@ describe('withTransition', () => {
       TransitionGroup,
       onShow: sinon.stub(),
       onDismiss: sinon.stub(),
-      defaultTransition: {transition: 'instant'},
+      defaultTransition: {transition: 'my-default'},
     };
 
     WrappedComponent = withTransition(BaseComponent, transitionConfig);
@@ -68,20 +68,23 @@ describe('withTransition', () => {
       expect(
         wrapper.children().props(),
         'transition group should get default transition',
-      ).to.have.property('transition', 'instant');
+      ).to.have.property('transition', 'my-default');
     });
+  });
 
-    describe('with state disabled', () => {
-      beforeEach(() => {
-        disableTransitions();
-      });
-      afterEach(() => {
-        enableTransitions();
-      });
-      it('should render the transition group with instant transition', () => {
-        const wrapper = shallow(<WrappedComponent {...props} />, {context});
-        expect(wrapper.children().props().transition).to.eql('instant');
-      });
+  describe('with state disabled', () => {
+    beforeEach(() => {
+      disableTransitions();
+    });
+    afterEach(() => {
+      enableTransitions();
+    });
+    it('should render the transition group with instant transition', () => {
+      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const nextLocation = {key: 'second', pathname: '/second'};
+      const nextProps = {...props, location: nextLocation};
+      wrapper.setProps(nextProps);
+      expect(wrapper.children().props()).to.have.property('transition', 'instant');
     });
   });
 

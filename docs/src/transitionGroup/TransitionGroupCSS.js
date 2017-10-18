@@ -1,5 +1,6 @@
-import React, {PropTypes, Component} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import CSSTransitionGroup from 'react-transition-group';
 
 export default class TransitionGroup extends Component {
   static propTypes = {
@@ -24,7 +25,7 @@ export default class TransitionGroup extends Component {
     } = this.props;
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         component="div"
         className="transition-group-container"
         transitionName={`transition-group-${transition}`}
@@ -32,7 +33,7 @@ export default class TransitionGroup extends Component {
         transitionLeaveTimeout={500}
       >
         {children}
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }

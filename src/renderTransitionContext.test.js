@@ -1,4 +1,8 @@
-import {shallow} from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({adapter: new Adapter()});
+
 import {expect} from 'chai';
 import renderTransitionContext from './renderTransitionContext';
 
@@ -13,7 +17,7 @@ describe('renderTransitionContext', () => {
       router: {},
     });
 
-    const wrapper = shallow(transitionContext);
+    const wrapper = Enzyme.shallow(transitionContext);
 
     expect(
       wrapper.instance().props,

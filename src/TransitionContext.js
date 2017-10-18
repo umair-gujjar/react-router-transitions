@@ -1,5 +1,6 @@
 /* eslint react/no-multi-comp:  0 */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {createLocation, mergeLocations} from './LocationUtils';
 import {PUSH, REPLACE} from './HistoryActions';
 import {DISMISS} from './TransitionActions';

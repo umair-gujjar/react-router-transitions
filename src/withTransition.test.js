@@ -1,9 +1,14 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import dirtyChai from 'dirty-chai';
 import sinonChai from 'sinon-chai';
-import {shallow} from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({adapter: new Adapter()});
+
 import withTransition from './withTransition';
 import {disableTransitions, enableTransitions} from './activeState';
 
@@ -49,7 +54,7 @@ describe('withTransition', () => {
 
   describe('first render', () => {
     it('should use default transition', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
       expect(
         wrapper.props(),
         'component should get parent properties',
@@ -80,7 +85,7 @@ describe('withTransition', () => {
       enableTransitions();
     });
     it('should render the transition group with instant transition', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
       const nextLocation = {key: 'second', pathname: '/second'};
       const nextProps = {...props, location: nextLocation};
       wrapper.setProps(nextProps);
@@ -90,7 +95,7 @@ describe('withTransition', () => {
 
   describe('after show', () => {
     it('should call hook if available', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
 
       transitionConfig.onShow.callsArgWith(2, {
         transition: 'show',
@@ -134,7 +139,7 @@ describe('withTransition', () => {
     });
 
     it('should use transition state', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(1);
 
@@ -166,7 +171,7 @@ describe('withTransition', () => {
 
   describe('after dismiss', () => {
     it('should call hook if available', () => {
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
 
       transitionConfig.onDismiss.callsArgWith(2, {
         transition: 'dismiss',
@@ -216,7 +221,7 @@ describe('withTransition', () => {
         },
       };
 
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(2);
 
@@ -247,7 +252,7 @@ describe('withTransition', () => {
         },
       };
 
-      const wrapper = shallow(<WrappedComponent {...props} />, {context});
+      const wrapper = Enzyme.shallow(<WrappedComponent {...props} />, {context});
 
       context.transitionRouter.getLocationIndex.withArgs(props.location).returns(3);
 

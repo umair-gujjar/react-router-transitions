@@ -1,6 +1,6 @@
 {
   "name": "react-router-transitions",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "Brings transitions to react-router",
   "main": "lib/index.js",
   "scripts": {

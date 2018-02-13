@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-bind */
 import React, {
-  PropTypes,
   Component,
 } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Page extends Component {
   static propTypes = {

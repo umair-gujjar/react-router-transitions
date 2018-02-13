@@ -1,9 +1,9 @@
 import React, {
-  PropTypes,
   Children,
   isValidElement,
   cloneElement,
 } from 'react';
+import PropTypes from 'prop-types';
 import {getRoutePath} from './RouterUtils';
 import {SHOW, DISMISS} from './TransitionActions';
 import {areTransitionsEnabled} from './activeState';

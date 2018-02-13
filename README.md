@@ -34,7 +34,7 @@ In a simple application, you should only wrap your root component.
 import React from 'react';
 import {Router, Route, browserHistory, applyRouterMiddleware} from 'react-router';
 import {useTransitions, withTransition} from 'react-router-transitions';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group';
 import App from './App';
 import Home from './Home';
 import AboutUs from './AboutUs';
@@ -109,10 +109,11 @@ If you specify these properties, they will be the transition used to show or dis
 
 ```js
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class Home extends Component {
   static contextTypes = {
-    transitionRouter: React.PropTypes.object,
+    transitionRouter: PropTypes.object,
   };
 
   onClickAboutUs(event) {

@@ -1,5 +1,9 @@
 import React from 'react';
-import {mount} from 'enzyme';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({adapter: new Adapter()});
+
 
 export const getChildContext = (Component, props) => {
   let context;
@@ -16,7 +20,7 @@ export const getChildContext = (Component, props) => {
     }
   }
 
-  const wrapper = mount(
+  const wrapper = Enzyme.mount(
     <Component {...props}>
       <ChildContextGetter />
     </Component>,
